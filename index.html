@@ -1,619 +1,964 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Edgar Bolaños · Program Leader</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300&family=Bebas+Neue&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Edgar Bolaños · Senior Program Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --navy:#080e1c;
-  --navy2:#0d1628;
-  --panel:#111d35;
-  --border:#1e3054;
-  --teal:#00d4c8;
-  --teal2:#00a89e;
-  --amber:#f59e0b;
-  --red:#ef4444;
-  --green:#22c55e;
-  --text:#e2e8f0;
-  --muted:#64748b;
-  --dim:#334155;
-}
-html{scroll-behavior:smooth}
-body{background:var(--navy);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;overflow-x:hidden;cursor:none}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── CUSTOM CURSOR ── */
-#cursor{position:fixed;width:8px;height:8px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s}
-#cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(0,212,200,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out,width .25s,height .25s}
+:root {
+  /* Core palette — deep slate, not pure black; easier on eyes */
+  --bg:       #0a0f1e;
+  --bg2:      #0f1629;
+  --surface:  #141e33;
+  --surface2: #1a2540;
+  --border:   #243050;
+  --border2:  #2e3d60;
 
-/* ── SCANLINES ── */
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:1000}
+  /* Accent — refined teal/cyan */
+  --cyan:     #22d3ee;
+  --cyan-dim: rgba(34,211,238,.12);
+  --cyan-glow:rgba(34,211,238,.06);
 
-/* ── TOPBAR ── */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  background:rgba(8,14,28,.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2.5rem;height:52px;
-}
-.topbar-left{display:flex;align-items:center;gap:2rem}
-.topbar-logo{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.25rem;letter-spacing:.1em;
-  color:var(--teal);
-}
-.topbar-status{
-  display:flex;align-items:center;gap:.5rem;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  color:var(--green);letter-spacing:.15em;text-transform:uppercase;
-}
-.status-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+  /* Semantic */
+  --green:    #4ade80;
+  --amber:    #fbbf24;
+  --rose:     #fb7185;
 
-.topbar-nav{display:flex;gap:0;align-items:center}
-.topbar-nav a{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:.15em;text-transform:uppercase;
-  color:var(--muted);text-decoration:none;
-  padding:.4rem 1rem;
-  border-right:1px solid var(--border);
-  transition:color .2s,background .2s;
-}
-.topbar-nav a:first-child{border-left:1px solid var(--border)}
-.topbar-nav a:hover,.topbar-nav a.active{color:var(--teal);background:rgba(0,212,200,.06)}
+  /* Text — tiered for hierarchy */
+  --t1: #f1f5f9;   /* headings */
+  --t2: #cbd5e1;   /* body */
+  --t3: #94a3b8;   /* secondary */
+  --t4: #64748b;   /* muted/labels */
 
-.btn-download{
-  display:flex;align-items:center;gap:.5rem;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:.15em;text-transform:uppercase;
-  color:var(--navy);background:var(--teal);
-  border:none;padding:.5rem 1.2rem;
-  cursor:none;transition:background .2s,transform .15s;
-  font-weight:600;
+  --radius: 8px;
+  --nav-h: 58px;
 }
-.btn-download:hover{background:var(--teal2);transform:translateY(-1px)}
-.btn-download svg{width:12px;height:12px;flex-shrink:0}
 
-/* ── HERO ── */
-#hero{
-  min-height:100vh;padding-top:52px;
-  display:grid;grid-template-columns:1fr 400px;
-  position:relative;overflow:hidden;
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--t2);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
 }
-.hero-grid-bg{
-  position:absolute;inset:0;
+
+/* ────────────────────────────────
+   SCROLLBAR
+──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ────────────────────────────────
+   NAV
+──────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  height: var(--nav-h);
+  background: rgba(10,15,30,.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 1rem;
+}
+.nav-initials {
+  width: 34px; height: 34px;
+  background: var(--cyan-dim);
+  border: 1px solid rgba(34,211,238,.3);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700; font-size: 13px;
+  color: var(--cyan); letter-spacing: .05em;
+}
+.nav-name {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600; font-size: 14px;
+  color: var(--t1);
+}
+.nav-role {
+  font-size: 11px; color: var(--t4);
+  margin-top: 1px;
+}
+.nav-links {
+  display: flex; align-items: center; gap: .25rem;
+}
+.nav-links a {
+  font-size: 12px; font-weight: 500;
+  color: var(--t3); text-decoration: none;
+  padding: .45rem .85rem; border-radius: 6px;
+  transition: color .2s, background .2s;
+  letter-spacing: .01em;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--cyan);
+  background: var(--cyan-glow);
+}
+.nav-cta {
+  display: flex; align-items: center; gap: .5rem;
+  background: var(--cyan);
+  color: #050a14 !important;
+  font-weight: 600 !important;
+  padding: .45rem 1.1rem !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  transition: opacity .2s, transform .15s !important;
+  border: none; cursor: pointer;
+}
+.nav-cta:hover { opacity: .9; transform: translateY(-1px); background: var(--cyan) !important; }
+.nav-cta svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+/* ────────────────────────────────
+   HERO
+──────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  padding-top: var(--nav-h);
+  display: grid; grid-template-columns: 1fr 380px;
+  position: relative; overflow: hidden;
+}
+
+/* Subtle animated grid */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
   background-image:
-    linear-gradient(rgba(0,212,200,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,212,200,.04) 1px,transparent 1px);
-  background-size:40px 40px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: .35;
+  mask-image: radial-gradient(ellipse 70% 70% at 40% 50%, black 30%, transparent 80%);
 }
-.hero-left{
-  display:flex;flex-direction:column;justify-content:center;
-  padding:5rem 3rem 5rem 3.5rem;position:relative;z-index:2;
-}
-.hero-eyebrow{
-  display:flex;align-items:center;gap:1rem;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:.3em;text-transform:uppercase;
-  color:var(--teal);margin-bottom:2rem;
-}
-.hero-eyebrow::before{content:'[';color:var(--muted)}
-.hero-eyebrow::after{content:']';color:var(--muted)}
-h1{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(4rem,8vw,7rem);
-  line-height:.92;letter-spacing:.03em;
-  margin-bottom:1.5rem;
-}
-h1 .last{color:var(--teal);display:block}
-.hero-subtitle{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;
-  color:var(--muted);letter-spacing:.08em;line-height:1.8;
-  border-left:2px solid var(--teal);padding-left:1rem;
-  margin-bottom:2.5rem;
-}
-.hero-contacts{display:flex;flex-direction:column;gap:.5rem;margin-bottom:2.5rem}
-.hero-contacts a{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;
-  color:var(--text);text-decoration:none;letter-spacing:.04em;
-  display:flex;align-items:center;gap:.6rem;
-  transition:color .2s;
-}
-.hero-contacts a:hover{color:var(--teal)}
-.hero-contacts a .lbl{color:var(--muted);min-width:60px}
-
-.kpi-row{display:flex;gap:1.5rem}
-.kpi{
-  background:var(--panel);border:1px solid var(--border);
-  padding:.8rem 1.2rem;flex:1;
-  position:relative;overflow:hidden;
-}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal)}
-.kpi-val{
-  font-family:'Bebas Neue',sans-serif;font-size:2rem;
-  color:var(--teal);line-height:1;
-}
-.kpi-label{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
-  margin-top:.2rem;
+.hero-glow {
+  position: absolute; top: 20%; left: 10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(34,211,238,.07) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
 }
 
-/* hero right — program board */
-.hero-right{
-  background:var(--panel);
-  border-left:1px solid var(--border);
-  padding:2rem;display:flex;flex-direction:column;gap:1rem;
-  position:relative;z-index:2;overflow:hidden;
+.hero-left {
+  padding: 5rem 3rem 5rem 3.5rem;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 2;
 }
-.hero-right-label{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;
-  letter-spacing:.3em;color:var(--teal);
-  border-bottom:1px solid var(--border);
-  padding-bottom:.8rem;margin-bottom:.4rem;
+.hero-chip {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--cyan-dim);
+  border: 1px solid rgba(34,211,238,.25);
+  color: var(--cyan);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .15em; text-transform: uppercase;
+  padding: .35rem .85rem; border-radius: 20px;
+  margin-bottom: 1.8rem; width: fit-content;
 }
-.program-card{
-  background:var(--navy2);border:1px solid var(--border);
-  padding:1rem 1.2rem;
-  position:relative;
-  transition:border-color .2s,transform .2s;
-}
-.program-card:hover{border-color:var(--teal);transform:translateX(4px)}
-.program-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;
-  width:3px;
-}
-.program-card.s-active::before{background:var(--green)}
-.program-card.s-current::before{background:var(--teal)}
-.program-card.s-complete::before{background:var(--muted)}
-.pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
-.pc-name{font-weight:500;font-size:12px;color:var(--text)}
-.pc-badge{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;
-  letter-spacing:.1em;padding:.15rem .5rem;
-  border-radius:2px;text-transform:uppercase;
-}
-.pc-badge.active{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
-.pc-badge.current{background:rgba(0,212,200,.1);color:var(--teal);border:1px solid rgba(0,212,200,.2)}
-.pc-badge.complete{background:rgba(100,116,139,.12);color:var(--muted);border:1px solid rgba(100,116,139,.2)}
-.pc-company{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:.7rem}
-.pc-bar-wrap{background:var(--border);height:3px;border-radius:1px;margin-top:.4rem}
-.pc-bar{height:3px;border-radius:1px;background:var(--teal);width:0;transition:width 1.5s ease}
-.pc-meta{display:flex;justify-content:space-between;margin-top:.3rem}
-.pc-meta span{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted)}
-.cert-strip{margin-top:auto;border-top:1px solid var(--border);padding-top:1rem}
-.cert-strip-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem}
-.cert-chips{display:flex;flex-wrap:wrap;gap:.4rem}
-.cert-chip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:8px;padding:.2rem .5rem;letter-spacing:.1em}
+.hero-chip::before { content: '●'; font-size: 7px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* ── SECTION BASE ── */
-.section{max-width:1200px;margin:0 auto;padding:5rem 3.5rem}
-.section-header{
-  display:flex;align-items:center;gap:1.5rem;
-  margin-bottom:3rem;
+.hero-name {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+  line-height: 1.08;
+  color: var(--t1);
+  letter-spacing: -.03em;
+  margin-bottom: .6rem;
 }
-.sh-num{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  color:var(--teal);letter-spacing:.2em;
-  background:rgba(0,212,200,.08);border:1px solid rgba(0,212,200,.2);
-  padding:.25rem .6rem;
-}
-.sh-line{flex:1;height:1px;background:var(--border)}
-h2{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:2.4rem;letter-spacing:.06em;line-height:1;
-}
-h2 .accent{color:var(--teal)}
+.hero-name .highlight { color: var(--cyan); }
 
-/* ── PROFILE ── */
-#profile{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
-.profile-text{
-  font-size:14px;
-  color:rgba(226,232,240,.75);line-height:1.8;
+.hero-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem; font-weight: 400;
+  color: var(--t3);
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
-.profile-text strong{color:var(--teal);font-weight:500}
-.competencies{display:flex;flex-direction:column;gap:.8rem}
-.comp-item{display:flex;flex-direction:column;gap:.3rem}
-.comp-top{display:flex;justify-content:space-between}
-.comp-name{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text)}
-.comp-pct{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--teal)}
-.comp-track{background:var(--border);height:4px;border-radius:2px;overflow:hidden}
-.comp-fill{height:4px;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;width:0;transition:width 1.2s ease}
+.hero-title strong { color: var(--t2); font-weight: 500; }
 
-/* ── KANBAN ── */
-#achievements{background:var(--navy)}
-.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.kanban-col-header{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:.2em;text-transform:uppercase;
-  padding:.5rem 1rem;margin-bottom:1rem;
-  display:flex;align-items:center;gap:.6rem;
+.hero-desc {
+  font-size: 14px; color: var(--t3);
+  line-height: 1.75; max-width: 520px;
+  margin-bottom: 2.5rem;
+  border-left: 2px solid var(--border2);
+  padding-left: 1.2rem;
 }
-.kanban-col-header.teal{color:var(--teal);border-bottom:2px solid var(--teal);background:rgba(0,212,200,.04)}
-.kanban-col-header.amber{color:var(--amber);border-bottom:2px solid var(--amber);background:rgba(245,158,11,.04)}
-.kanban-col-header.green{color:var(--green);border-bottom:2px solid var(--green);background:rgba(34,197,94,.04)}
-.k-count{font-family:'IBM Plex Mono',monospace;font-size:8px;background:var(--border);padding:.1rem .4rem;border-radius:2px;margin-left:auto}
-.kanban-card{
-  background:var(--panel);border:1px solid var(--border);
-  padding:1.2rem;margin-bottom:.8rem;
-  transition:transform .2s,border-color .2s;
-}
-.kanban-card:hover{transform:translateY(-3px);border-color:rgba(0,212,200,.3)}
-.kc-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
-.kc-title{font-weight:500;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem}
-.kc-desc{font-size:11px;color:var(--muted);line-height:1.6}
+.hero-desc strong { color: var(--cyan); font-weight: 500; }
 
-/* ── EXPERIENCE ── */
-#experience{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.timeline{display:flex;flex-direction:column}
-.tl-item{
-  display:grid;grid-template-columns:200px 1fr;
-  gap:2.5rem;padding:2.5rem 0;
-  border-bottom:1px solid var(--border);
+.hero-contacts {
+  display: flex; flex-direction: column; gap: .55rem;
+  margin-bottom: 2.5rem;
 }
-.tl-item:last-child{border-bottom:none}
-.tl-company{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;color:var(--teal);margin-bottom:.2rem}
-.tl-period{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.04em;line-height:1.7}
-.tl-gantt{background:var(--border);height:3px;margin-top:.8rem;position:relative;border-radius:1px}
-.tl-gantt-fill{height:3px;background:linear-gradient(90deg,var(--teal),rgba(0,212,200,.3));border-radius:1px;width:0;transition:width 1.5s ease}
-.tl-dot{position:absolute;right:0;top:50%;transform:translateY(-50%);width:7px;height:7px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal)}
-.tl-role{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.04em;line-height:1;margin-bottom:1rem}
-.tl-bullets{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
-.tl-bullets li{font-size:12px;color:rgba(226,232,240,.7);line-height:1.6;display:flex;gap:.7rem}
-.tl-bullets li::before{content:'▸';color:var(--teal);flex-shrink:0;font-size:10px;margin-top:.2em}
-.tl-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
-.tl-tag{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;
-  letter-spacing:.1em;text-transform:uppercase;
-  border:1px solid var(--dim);color:var(--muted);
-  padding:.2rem .5rem;border-radius:2px;transition:all .2s;
+.hero-contacts a {
+  display: flex; align-items: center; gap: .75rem;
+  font-size: 13px; color: var(--t3);
+  text-decoration: none;
+  transition: color .2s;
 }
-.tl-tag:hover{border-color:var(--teal);color:var(--teal)}
+.hero-contacts a:hover { color: var(--cyan); }
+.contact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--t4);
+  background: var(--surface2);
+  padding: .2rem .55rem; border-radius: 4px;
+  min-width: 58px; text-align: center;
+}
 
-/* ── SKILLS ── */
-#skills{background:var(--navy)}
-.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-.skill-block{background:var(--panel);border:1px solid var(--border);padding:1.5rem}
-.sb-label{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:.25em;text-transform:uppercase;
-  color:var(--teal);margin-bottom:1.2rem;
-  padding-bottom:.6rem;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:.5rem;
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
-.sb-label::before{content:'//'}
-.skill-chips{display:flex;flex-wrap:wrap;gap:.4rem}
-.chip{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:.08em;color:var(--text);
-  background:var(--navy2);border:1px solid var(--border);
-  padding:.3rem .7rem;border-radius:2px;transition:all .2s;cursor:default;
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  position: relative; overflow: hidden;
+  transition: border-color .3s;
 }
-.chip:hover{background:rgba(0,212,200,.08);border-color:var(--teal);color:var(--teal)}
-.chip.hi{border-color:rgba(0,212,200,.3);color:var(--teal);background:rgba(0,212,200,.06)}
+.stat-card:hover { border-color: var(--border2); }
+.stat-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+}
+.stat-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.8rem; font-weight: 700;
+  color: var(--cyan); line-height: 1;
+  margin-bottom: .3rem;
+}
+.stat-lbl {
+  font-size: 11px; color: var(--t4);
+  font-weight: 400; line-height: 1.3;
+}
 
-/* ── EDUCATION ── */
-#education{background:var(--navy2);border-top:1px solid var(--border)}
-.edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
-.edu-card{
-  background:var(--panel);border:1px solid var(--border);
-  padding:1.5rem;position:relative;overflow:hidden;transition:border-color .2s;
+/* Hero right panel */
+.hero-right {
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  display: flex; flex-direction: column; gap: 1.2rem;
+  position: relative; z-index: 2;
+  overflow-y: auto;
 }
-.edu-card:hover{border-color:var(--teal)}
-.edu-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--teal);transition:width .4s}
-.edu-card:hover::after{width:100%}
-.edu-type{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem}
-.edu-degree{font-weight:500;font-size:13px;margin-bottom:.3rem;line-height:1.3}
-.edu-inst{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)}
+.panel-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--cyan);
+  padding-bottom: .9rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: .3rem;
+}
 
-/* ── FOOTER ── */
-footer{
-  background:var(--navy);border-top:1px solid var(--border);
-  padding:2rem 3.5rem;
-  display:flex;justify-content:space-between;align-items:center;
+.prog-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  transition: border-color .25s, transform .25s;
+  cursor: default;
 }
-.footer-id{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em}
-.footer-id span{color:var(--teal)}
-.footer-links{display:flex;gap:1.5rem}
-.footer-links a{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
-.footer-links a:hover{color:var(--teal)}
+.prog-card:hover { border-color: var(--border2); transform: translateX(3px); }
+.prog-card-top {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: .35rem;
+}
+.prog-name { font-size: 13px; font-weight: 600; color: var(--t1); line-height: 1.3; }
+.prog-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; letter-spacing: .08em;
+  padding: .2rem .55rem; border-radius: 20px;
+  text-transform: uppercase; flex-shrink: 0;
+}
+.badge-active  { background: rgba(74,222,128,.1); color: var(--green); border: 1px solid rgba(74,222,128,.25); }
+.badge-current { background: rgba(34,211,238,.1); color: var(--cyan);  border: 1px solid rgba(34,211,238,.25); }
+.badge-done    { background: rgba(100,116,139,.1); color: var(--t4);   border: 1px solid var(--border); }
+.prog-company { font-size: 11px; color: var(--t4); margin-bottom: .8rem; }
+.prog-bar-track { background: var(--border); height: 3px; border-radius: 2px; }
+.prog-bar-fill  { height: 3px; border-radius: 2px; background: var(--cyan); width: 0; transition: width 1.4s ease; }
+.prog-meta { display: flex; justify-content: space-between; margin-top: .4rem; }
+.prog-meta span { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--t4); }
 
-/* ── DOWNLOAD MODAL ── */
-#dl-modal{
-  display:none;position:fixed;inset:0;z-index:500;
-  background:rgba(8,14,28,.85);backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;
+.cert-section { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+.cert-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .7rem; }
+.cert-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--amber);
+  background: rgba(251,191,36,.07);
+  border: 1px solid rgba(251,191,36,.2);
+  padding: .25rem .6rem; border-radius: 4px;
 }
-#dl-modal.open{display:flex}
-.modal-box{
-  background:var(--panel);border:1px solid var(--border);
-  padding:2.5rem;max-width:420px;width:90%;position:relative;
-}
-.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal)}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;margin-bottom:.4rem}
-.modal-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:2rem}
-#dl-progress{background:var(--border);height:4px;border-radius:2px;overflow:hidden;margin-bottom:1.2rem;display:none}
-#dl-fill{height:4px;background:linear-gradient(90deg,var(--teal),var(--teal2));width:0;transition:width .3s;border-radius:2px}
-#dl-status{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--teal);letter-spacing:.1em;min-height:1.2em}
-.modal-close{
-  position:absolute;top:1rem;right:1rem;
-  background:none;border:none;color:var(--muted);
-  font-family:'IBM Plex Mono',monospace;font-size:10px;
-  cursor:none;transition:color .2s;letter-spacing:.1em;
-}
-.modal-close:hover{color:var(--teal)}
 
-/* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in{opacity:1;transform:translateY(0)}
+/* ────────────────────────────────
+   SECTION WRAPPER
+──────────────────────────────── */
+.section-wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding: 5rem 3rem;
+}
+.alt-bg { background: var(--bg2); }
+.alt-bg-2 { background: var(--surface); }
 
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  #hero{grid-template-columns:1fr}
-  .hero-right{display:none}
-  .hero-left{padding:3rem 1.5rem}
-  .section{padding:3.5rem 1.5rem}
-  .profile-grid,.kanban,.skills-layout,.edu-grid{grid-template-columns:1fr}
-  .tl-item{grid-template-columns:1fr;gap:.8rem}
-  .tl-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-  .tl-gantt{display:none}
-  .topbar-nav{display:none}
-  footer{flex-direction:column;gap:1rem;padding:1.5rem}
+.section-head {
+  display: flex; align-items: center; gap: 1.2rem;
+  margin-bottom: 2.8rem;
+}
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--cyan); letter-spacing: .15em;
+  background: var(--cyan-dim);
+  border: 1px solid rgba(34,211,238,.2);
+  padding: .25rem .65rem; border-radius: 4px;
+}
+.section-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.75rem; font-weight: 700;
+  color: var(--t1); letter-spacing: -.02em;
+  line-height: 1;
+}
+.section-title .accent { color: var(--cyan); }
+.section-rule { flex: 1; height: 1px; background: var(--border); }
+
+/* ────────────────────────────────
+   PROFILE SECTION
+──────────────────────────────── */
+.profile-grid {
+  display: grid; grid-template-columns: 1.1fr .9fr;
+  gap: 3.5rem; align-items: start;
+}
+.profile-body {
+  font-size: 14.5px; color: var(--t3);
+  line-height: 1.8;
+}
+.profile-body p { margin-bottom: 1rem; }
+.profile-body p:last-child { margin-bottom: 0; }
+.profile-body strong { color: var(--t1); font-weight: 600; }
+.profile-body .client-tag {
+  display: inline-block;
+  color: var(--cyan); font-weight: 500;
+}
+
+.competencies { display: flex; flex-direction: column; gap: 1rem; }
+.comp-row { display: flex; flex-direction: column; gap: .35rem; }
+.comp-meta { display: flex; justify-content: space-between; align-items: center; }
+.comp-name {
+  font-size: 12px; font-weight: 500;
+  color: var(--t2); letter-spacing: .01em;
+}
+.comp-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--cyan);
+}
+.comp-track {
+  background: var(--border);
+  height: 5px; border-radius: 3px; overflow: hidden;
+}
+.comp-fill {
+  height: 5px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--cyan) 0%, rgba(34,211,238,.5) 100%);
+  width: 0; transition: width 1.1s cubic-bezier(.4,0,.2,1);
+}
+
+/* ────────────────────────────────
+   ACHIEVEMENTS KANBAN
+──────────────────────────────── */
+.kanban {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.kanban-col-head {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase;
+  padding: .6rem 1rem; margin-bottom: 1rem;
+  border-radius: 6px 6px 0 0;
+  display: flex; align-items: center; gap: .5rem;
+}
+.kch-cyan  { color: var(--cyan);  background: var(--cyan-dim); border-bottom: 2px solid var(--cyan); }
+.kch-amber { color: var(--amber); background: rgba(251,191,36,.07); border-bottom: 2px solid var(--amber); }
+.kch-green { color: var(--green); background: rgba(74,222,128,.07); border-bottom: 2px solid var(--green); }
+.k-count {
+  margin-left: auto;
+  background: var(--surface2); font-size: 9px;
+  padding: .1rem .4rem; border-radius: 3px; color: var(--t4);
+}
+.k-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem; margin-bottom: 1rem;
+  transition: border-color .25s, transform .25s;
+}
+.k-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.k-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; color: var(--t4);
+  letter-spacing: .12em; text-transform: uppercase;
+  margin-bottom: .55rem;
+}
+.k-title { font-size: 13px; font-weight: 600; color: var(--t1); line-height: 1.4; margin-bottom: .5rem; }
+.k-desc  { font-size: 12px; color: var(--t3); line-height: 1.65; }
+
+/* ────────────────────────────────
+   EXPERIENCE TIMELINE
+──────────────────────────────── */
+.timeline { display: flex; flex-direction: column; }
+.tl-item {
+  display: grid; grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.tl-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.tl-left { padding-top: .2rem; }
+.tl-company {
+  font-family: 'Sora', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--cyan); margin-bottom: .3rem;
+  letter-spacing: -.01em;
+}
+.tl-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--t4);
+  line-height: 1.7; margin-bottom: .9rem;
+}
+.tl-gantt { background: var(--border); height: 3px; border-radius: 2px; position: relative; }
+.tl-gantt-fill {
+  height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyan), rgba(34,211,238,.25));
+  width: 0; transition: width 1.5s ease;
+}
+.tl-dot {
+  position: absolute; right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 8px; height: 8px;
+  background: var(--cyan); border-radius: 50%;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.tl-right {}
+.tl-role {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--t1); line-height: 1.2;
+  margin-bottom: 1.1rem; letter-spacing: -.01em;
+}
+.tl-bullets { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+.tl-bullets li {
+  font-size: 13.5px; color: var(--t3);
+  line-height: 1.65; display: flex; gap: .75rem; align-items: flex-start;
+}
+.tl-bullets li::before {
+  content: '▸'; color: var(--cyan);
+  font-size: 10px; flex-shrink: 0; margin-top: .3em;
+}
+.tl-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.1rem; }
+.tl-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--t4); background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: .25rem .6rem; border-radius: 4px;
+  transition: color .2s, border-color .2s;
+}
+.tl-tag:hover { color: var(--cyan); border-color: rgba(34,211,238,.3); }
+
+/* ────────────────────────────────
+   SKILLS
+──────────────────────────────── */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.skill-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  transition: border-color .25s;
+}
+.skill-card:hover { border-color: var(--border2); }
+.skill-card-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 1.1rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.skill-card-label::before { content: '//'; opacity: .5; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip {
+  font-size: 12px; font-weight: 400;
+  color: var(--t2);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: .3rem .75rem; border-radius: 5px;
+  transition: all .2s; cursor: default;
+}
+.chip:hover { background: var(--cyan-dim); border-color: rgba(34,211,238,.3); color: var(--cyan); }
+.chip.hi { border-color: rgba(34,211,238,.25); color: var(--cyan); background: var(--cyan-dim); }
+
+/* ────────────────────────────────
+   EDUCATION
+──────────────────────────────── */
+.edu-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+.edu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: relative; overflow: hidden;
+  transition: border-color .25s;
+}
+.edu-card:hover { border-color: var(--border2); }
+.edu-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; width: 0; height: 2px;
+  background: var(--cyan); transition: width .4s ease;
+}
+.edu-card:hover::after { width: 100%; }
+.edu-type {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: .55rem;
+}
+.edu-degree { font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: .3rem; line-height: 1.3; }
+.edu-inst   { font-size: 12px; color: var(--t4); }
+
+/* ────────────────────────────────
+   FOOTER
+──────────────────────────────── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 2.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-id {
+  font-size: 12px; color: var(--t4);
+}
+.footer-id strong { color: var(--t2); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-size: 12px; color: var(--t4);
+  text-decoration: none; transition: color .2s;
+}
+.footer-links a:hover { color: var(--cyan); }
+
+/* ────────────────────────────────
+   MODAL
+──────────────────────────────── */
+#dl-modal {
+  display: none; position: fixed; inset: 0; z-index: 600;
+  background: rgba(5,8,18,.8);
+  backdrop-filter: blur(10px);
+  align-items: center; justify-content: center;
+}
+#dl-modal.open { display: flex; }
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 2.5rem; max-width: 440px; width: 90%;
+  position: relative;
+}
+.modal-box::before {
+  content: ''; position: absolute;
+  top: 0; left: 2.5rem; right: 2.5rem; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+.modal-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.35rem; font-weight: 700;
+  color: var(--t1); margin-bottom: .4rem;
+}
+.modal-sub { font-size: 13px; color: var(--t4); margin-bottom: 2rem; }
+#dl-progress {
+  background: var(--border); height: 4px; border-radius: 2px;
+  overflow: hidden; margin-bottom: 1rem; display: none;
+}
+#dl-fill {
+  height: 4px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyan), rgba(34,211,238,.6));
+  width: 0; transition: width .3s ease;
+}
+#dl-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan); min-height: 1.4em; margin-bottom: 1.5rem; }
+.modal-close {
+  position: absolute; top: 1.1rem; right: 1.2rem;
+  background: none; border: none;
+  color: var(--t4); font-size: 18px; cursor: pointer; line-height: 1;
+  transition: color .2s;
+}
+.modal-close:hover { color: var(--t2); }
+
+/* ────────────────────────────────
+   SCROLL REVEAL
+──────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ────────────────────────────────
+   RESPONSIVE
+──────────────────────────────── */
+@media (max-width: 960px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 3rem 1.5rem; }
+  .section-wrap { padding: 3.5rem 1.5rem; }
+  .profile-grid, .kanban, .skills-grid, .edu-grid { grid-template-columns: 1fr; }
+  .tl-item { grid-template-columns: 1fr; gap: .6rem; }
+  .tl-left { display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+  .tl-gantt { display: none; }
+  .nav-links { display: none; }
+  footer { flex-direction: column; gap: 1rem; padding: 1.8rem 1.5rem; }
 }
 </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
-<!-- TOPBAR -->
-<header class="topbar">
-  <div class="topbar-left">
-    <div class="topbar-logo">EB</div>
-    <div class="topbar-status">
-      <span class="status-dot"></span>
-      Available for Opportunities
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-brand">
+    <div class="nav-initials">EB</div>
+    <div>
+      <div class="nav-name">Edgar Bolaños</div>
+      <div class="nav-role">Senior Program Manager</div>
     </div>
   </div>
-  <nav class="topbar-nav">
+  <nav class="nav-links">
     <a href="#profile">Profile</a>
     <a href="#achievements">Highlights</a>
     <a href="#experience">Experience</a>
     <a href="#skills">Skills</a>
     <a href="#education">Education</a>
+    <button class="nav-cta" onclick="openModal()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>
+      Download CV
+    </button>
   </nav>
-  <button class="btn-download" onclick="openModal()">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
-    Download CV
-  </button>
 </header>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+
   <div class="hero-left">
-    <div class="hero-eyebrow">Senior Program Manager · Creative Operations</div>
-    <h1>Edgar<span class="last">Bolaños</span></h1>
-    <p class="hero-subtitle">
-      Program Governance · Creative Ops · Quality Control<br>
-      Strategic Execution · Change Management · $60B Brand Scale
+    <div class="hero-chip">Available for Opportunities</div>
+
+    <h1 class="hero-name">Edgar<br><span class="highlight">Bolaños</span></h1>
+
+    <p class="hero-title">
+      <strong>Senior Program Manager</strong> · Creative Operations · Digital Asset Management
     </p>
+
+    <p class="hero-desc">
+      Strategic leader with <strong>7+ years</strong> delivering complex global programs for
+      <strong class="client-tag">Google, Apple, AT&amp;T &amp; VMware</strong>.
+      Lean Six Sigma Black Belt bridging creative vision with operational excellence.
+    </p>
+
     <div class="hero-contacts">
-      <a href="mailto:edgarbolan@gmail.com"><span class="lbl">EMAIL</span>edgarbolan@gmail.com</a>
-      <a href="tel:+50688380582"><span class="lbl">PHONE</span>+506 8838 0582</a>
-      <a href="https://linkedin.com/in/edgarbolan/" target="_blank" rel="noopener"><span class="lbl">LINKED</span>linkedin.com/in/edgarbolan</a>
+      <a href="mailto:edgarbolan@gmail.com">
+        <span class="contact-label">Email</span>
+        edgarbolan@gmail.com
+      </a>
+      <a href="tel:+50688380582">
+        <span class="contact-label">Phone</span>
+        +506 8838 0582
+      </a>
+      <a href="https://linkedin.com/in/edgarbolan/" target="_blank" rel="noopener">
+        <span class="contact-label">LinkedIn</span>
+        linkedin.com/in/edgarbolan
+      </a>
     </div>
-    <div class="kpi-row">
-      <div class="kpi"><div class="kpi-val">7+</div><div class="kpi-label">Yrs Experience</div></div>
-      <div class="kpi"><div class="kpi-val">$60B</div><div class="kpi-label">Brand Programs</div></div>
-      <div class="kpi"><div class="kpi-val">3</div><div class="kpi-label">Certifications</div></div>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-val">7+</div>
+        <div class="stat-lbl">Years of Experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">$60B</div>
+        <div class="stat-lbl">Brand Scale Managed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">3</div>
+        <div class="stat-lbl">Certifications</div>
+      </div>
     </div>
   </div>
+
+  <!-- Right panel — program board -->
   <div class="hero-right" aria-hidden="true">
-    <div class="hero-right-label">ACTIVE PROGRAMS</div>
-    <div class="program-card s-active">
-      <div class="pc-top"><div class="pc-name">Strategic Programs &amp; Ops</div><span class="pc-badge active">● Active</span></div>
-      <div class="pc-company">Akamai · Sr. Program Manager</div>
-      <div class="pc-bar-wrap"><div class="pc-bar" data-width="72"></div></div>
-      <div class="pc-meta"><span>05/2025 – Present</span><span>72%</span></div>
+    <div class="panel-label">Active Programs</div>
+
+    <div class="prog-card">
+      <div class="prog-card-top">
+        <div class="prog-name">Strategic Programs &amp; Operations</div>
+        <span class="prog-badge badge-active">● Active</span>
+      </div>
+      <div class="prog-company">Akamai · Sr. Program Manager</div>
+      <div class="prog-bar-track"><div class="prog-bar-fill" data-w="72"></div></div>
+      <div class="prog-meta"><span>05/2025 – Present</span><span>72%</span></div>
     </div>
-    <div class="program-card s-current">
-      <div class="pc-top"><div class="pc-name">Quality Control &amp; Governance</div><span class="pc-badge current">◈ Concurrent</span></div>
-      <div class="pc-company">Critical Mass · QC Director</div>
-      <div class="pc-bar-wrap"><div class="pc-bar" data-width="88"></div></div>
-      <div class="pc-meta"><span>01/2024 – Present</span><span>88%</span></div>
+
+    <div class="prog-card">
+      <div class="prog-card-top">
+        <div class="prog-name">Quality Control &amp; Governance</div>
+        <span class="prog-badge badge-current">◈ Concurrent</span>
+      </div>
+      <div class="prog-company">Critical Mass · QC Director</div>
+      <div class="prog-bar-track"><div class="prog-bar-fill" data-w="88"></div></div>
+      <div class="prog-meta"><span>01/2024 – Present</span><span>88%</span></div>
     </div>
-    <div class="program-card s-complete">
-      <div class="pc-top"><div class="pc-name">VMworld &amp; Explore Events</div><span class="pc-badge complete">✓ Delivered</span></div>
-      <div class="pc-company">VMware · Brand &amp; Event PM</div>
-      <div class="pc-bar-wrap"><div class="pc-bar" data-width="100"></div></div>
-      <div class="pc-meta"><span>09/2018 – 12/2023</span><span>100%</span></div>
+
+    <div class="prog-card">
+      <div class="prog-card-top">
+        <div class="prog-name">VMworld &amp; Explore Global Events</div>
+        <span class="prog-badge badge-done">✓ Delivered</span>
+      </div>
+      <div class="prog-company">VMware · Brand &amp; Event PM</div>
+      <div class="prog-bar-track"><div class="prog-bar-fill" data-w="100"></div></div>
+      <div class="prog-meta"><span>09/2018 – 12/2023</span><span>100%</span></div>
     </div>
-    <div class="cert-strip">
-      <div class="cert-strip-lbl">Certifications</div>
+
+    <div class="cert-section">
+      <div class="panel-label" style="border:none;padding:0;margin:0">Certifications</div>
       <div class="cert-chips">
-        <span class="cert-chip">LEAN SIX SIGMA BB</span>
-        <span class="cert-chip">GOOGLE PM</span>
-        <span class="cert-chip">DESIGN THINKING</span>
+        <span class="cert-chip">Lean Six Sigma BB</span>
+        <span class="cert-chip">Google PM</span>
+        <span class="cert-chip">Design Thinking</span>
+        <span class="cert-chip">Agile Scrum</span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PROFILE -->
-<div id="profile">
-  <div class="section">
-    <div class="section-header reveal">
-      <span class="sh-num">01</span>
-      <h2>PROFILE <span class="accent">SUMMARY</span></h2>
-      <div class="sh-line"></div>
+<div id="profile" class="alt-bg">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Professional <span class="accent">Summary</span></h2>
+      <div class="section-rule"></div>
     </div>
     <div class="profile-grid">
-      <div class="profile-text reveal">
-        <p>Strategic Program Leader with over <strong>7 years of experience</strong> driving creative business transformation and executing <strong>high-impact global multimedia programs</strong>. Expert in orchestrating creative workflows, storyboarding alignment, and operational governance within fast-paced corporate environments.</p>
-        <br>
-        <p>Proven track record of managing complex, multi-phased project plans for <strong>$60 Billion brands</strong>, ensuring brand consistency and the flawless execution of visual pursuit messaging. Fluent in translating ambiguous strategic goals into actionable, measurable delivery frameworks.</p>
+      <div class="profile-body reveal">
+        <p>Strategic Senior Program Leader and Digital Producer with over <strong>7+ years of experience</strong> spearheading creative business transformations and executing high-impact global multimedia programs. Expert in orchestrating end-to-end <strong>Creative Operations</strong> — from storyboarding and brand governance to the deployment of complex digital ecosystems for $60 Billion brands.</p>
+        <p>Proven track record of managing high-profile visual pursuit messaging and asset validation for global market leaders including <strong>Google, Apple, AT&amp;T, and VMware</strong>. Adept at leading Senior Web Production initiatives utilizing <strong>SDLC methodologies and Agile frameworks</strong> to manage content lifecycles and large-scale digital asset migrations.</p>
+        <p>Expert in <strong>Digital Asset Management (DAM)</strong> and workflow automation, leveraging Generative AI to drive efficiency. A <strong>Lean Six Sigma Black Belt</strong> professional dedicated to bridging the gap between creative vision and operational excellence.</p>
       </div>
       <div class="competencies reveal">
-        <div class="comp-item"><div class="comp-top"><span class="comp-name">Program Governance</span><span class="comp-pct">95%</span></div><div class="comp-track"><div class="comp-fill" data-w="95"></div></div></div>
-        <div class="comp-item"><div class="comp-top"><span class="comp-name">Strategic Planning</span><span class="comp-pct">92%</span></div><div class="comp-track"><div class="comp-fill" data-w="92"></div></div></div>
-        <div class="comp-item"><div class="comp-top"><span class="comp-name">Change Management</span><span class="comp-pct">90%</span></div><div class="comp-track"><div class="comp-fill" data-w="90"></div></div></div>
-        <div class="comp-item"><div class="comp-top"><span class="comp-name">Stakeholder Influence</span><span class="comp-pct">93%</span></div><div class="comp-track"><div class="comp-fill" data-w="93"></div></div></div>
-        <div class="comp-item"><div class="comp-top"><span class="comp-name">Risk Management</span><span class="comp-pct">88%</span></div><div class="comp-track"><div class="comp-fill" data-w="88"></div></div></div>
-        <div class="comp-item"><div class="comp-top"><span class="comp-name">Process Optimization</span><span class="comp-pct">91%</span></div><div class="comp-track"><div class="comp-fill" data-w="91"></div></div></div>
+        <div class="comp-row"><div class="comp-meta"><span class="comp-name">Program Governance</span><span class="comp-val">95%</span></div><div class="comp-track"><div class="comp-fill" data-w="95"></div></div></div>
+        <div class="comp-row"><div class="comp-meta"><span class="comp-name">Creative Operations</span><span class="comp-val">93%</span></div><div class="comp-track"><div class="comp-fill" data-w="93"></div></div></div>
+        <div class="comp-row"><div class="comp-meta"><span class="comp-name">Digital Asset Management</span><span class="comp-val">92%</span></div><div class="comp-track"><div class="comp-fill" data-w="92"></div></div></div>
+        <div class="comp-row"><div class="comp-meta"><span class="comp-name">Change Management</span><span class="comp-val">90%</span></div><div class="comp-track"><div class="comp-fill" data-w="90"></div></div></div>
+        <div class="comp-row"><div class="comp-meta"><span class="comp-name">Risk Mitigation</span><span class="comp-val">88%</span></div><div class="comp-track"><div class="comp-fill" data-w="88"></div></div></div>
+        <div class="comp-row"><div class="comp-meta"><span class="comp-name">Lean Six Sigma / Agile</span><span class="comp-val">94%</span></div><div class="comp-track"><div class="comp-fill" data-w="94"></div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ACHIEVEMENTS KANBAN -->
+<!-- ACHIEVEMENTS -->
 <div id="achievements">
-  <div class="section">
-    <div class="section-header reveal">
-      <span class="sh-num">02</span>
-      <h2>KEY <span class="accent">ACHIEVEMENTS</span></h2>
-      <div class="sh-line"></div>
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Key <span class="accent">Achievements</span></h2>
+      <div class="section-rule"></div>
     </div>
     <div class="kanban reveal">
-      <div class="kanban-col">
-        <div class="kanban-col-header teal">Delivery <span class="k-count">2</span></div>
-        <div class="kanban-card"><div class="kc-tag">Global Scale</div><div class="kc-title">$60B Brand Program Management</div><div class="kc-desc">Managed deliverables for flagship global events contributing to a $60 Billion-valued technology brand — ensuring flawless execution under high-stakes conditions.</div></div>
-        <div class="kanban-card"><div class="kc-tag">Event Leadership</div><div class="kc-title">VMworld &amp; Explore — Global Flagship</div><div class="kc-desc">Led end-to-end program management for VMware's most prominent annual events, coordinating cross-functional teams, budgets, and complex multi-track dependencies.</div></div>
+      <div>
+        <div class="kanban-col-head kch-cyan">Delivery <span class="k-count">2</span></div>
+        <div class="k-card"><div class="k-tag">Global Client Portfolio</div><div class="k-title">Google · Apple · AT&amp;T · VMware</div><div class="k-desc">Managed high-profile visual pursuit messaging and asset validation for globally recognized market leaders, ensuring peak operational accuracy on every deliverable.</div></div>
+        <div class="k-card"><div class="k-tag">Event Leadership</div><div class="k-title">VMworld &amp; Explore — Global Flagship</div><div class="k-desc">Directed end-to-end program management for VMware's most prominent annual events, coordinating cross-functional teams, multi-million dollar budgets, and complex dependencies.</div></div>
       </div>
-      <div class="kanban-col">
-        <div class="kanban-col-header amber">Operations <span class="k-count">2</span></div>
-        <div class="kanban-card"><div class="kc-tag">Quality Control</div><div class="kc-title">Zero-Defect Asset Execution</div><div class="kc-desc">Supervised validation and delivery of assets for high-profile global clients, achieving zero-defect output standards across digital campaigns at scale.</div></div>
-        <div class="kanban-card"><div class="kc-tag">Process Design</div><div class="kc-title">Scalable Automation Workflows</div><div class="kc-desc">Spearheaded workflow automation strategies at Critical Mass, dramatically increasing accuracy and speed across global digital campaign pipelines.</div></div>
+      <div>
+        <div class="kanban-col-head kch-amber">Operations <span class="k-count">2</span></div>
+        <div class="k-card"><div class="k-tag">DAM &amp; Web Production</div><div class="k-title">Digital Ecosystem Deployment</div><div class="k-desc">Led Senior Web Production initiatives using SDLC and Agile frameworks to manage content lifecycles and large-scale digital asset migrations at enterprise scale.</div></div>
+        <div class="k-card"><div class="k-tag">Process Design</div><div class="k-title">Scalable Automation Workflows</div><div class="k-desc">Spearheaded workflow automation strategies leveraging Generative AI, dramatically increasing accuracy and speed across global digital campaign pipelines.</div></div>
       </div>
-      <div class="kanban-col">
-        <div class="kanban-col-header green">Impact <span class="k-count">2</span></div>
-        <div class="kanban-card"><div class="kc-tag">Governance</div><div class="kc-title">Brand &amp; Content Compliance</div><div class="kc-desc">Established brand protection protocols and content guidelines across global VMware outputs, ensuring consistency across all markets and channels.</div></div>
-        <div class="kanban-card"><div class="kc-tag">Transformation</div><div class="kc-title">Change Management at Scale</div><div class="kc-desc">Drove strategic process transformations at Akamai, enabling organizations to adopt new systems with high stakeholder engagement and minimal disruption.</div></div>
+      <div>
+        <div class="kanban-col-head kch-green">Impact <span class="k-count">2</span></div>
+        <div class="k-card"><div class="k-tag">Brand Governance</div><div class="k-title">100% Brand Consistency — $60B Scale</div><div class="k-desc">Enforced brand protection and content guidelines across all global outputs, achieving full brand consistency for a $60 Billion-valued brand across all markets.</div></div>
+        <div class="k-card"><div class="k-tag">Lean Six Sigma BB</div><div class="k-title">Process Excellence &amp; Transformation</div><div class="k-desc">Applied Lean Six Sigma Black Belt methodologies to bridge creative vision with operational excellence — eliminating waste and improving delivery speed across programs.</div></div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- EXPERIENCE -->
-<div id="experience">
-  <div class="section">
-    <div class="section-header reveal">
-      <span class="sh-num">03</span>
-      <h2>WORK <span class="accent">EXPERIENCE</span></h2>
-      <div class="sh-line"></div>
+<div id="experience" class="alt-bg">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Work <span class="accent">Experience</span></h2>
+      <div class="section-rule"></div>
     </div>
     <div class="timeline">
+
       <div class="tl-item reveal">
-        <div class="tl-meta">
+        <div class="tl-left">
           <div class="tl-company">Akamai</div>
           <div class="tl-period">05/2025 — Present<br>San José, CR</div>
-          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="70"></div><div class="tl-dot"></div></div>
+          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="72"></div><div class="tl-dot"></div></div>
         </div>
         <div class="tl-right">
-          <div class="tl-role">Sr. Program Manager — Strategic Programs &amp; Ops</div>
+          <div class="tl-role">Senior Program Manager — Strategic Programs &amp; Operations</div>
           <ul class="tl-bullets">
-            <li>Lead concurrent, complex cross-functional projects ensuring rigorous organizational planning and execution through program governance frameworks.</li>
-            <li>Drive strategic process transformations and business programs enabling organizations to meet critical operational goals.</li>
-            <li>Manage risks, dependencies, and issues across multi-phased program plans to ensure flawless delivery.</li>
-            <li>Execute comprehensive change management plans ensuring high stakeholder engagement and successful adoption of new systems and workflows.</li>
+            <li>Lead concurrent, high-priority cross-functional programs, establishing rigorous organizational planning frameworks and execution standards for global initiatives.</li>
+            <li>Drive strategic process transformations and business programs, identifying bottlenecks and implementing scalable solutions to meet critical corporate goals.</li>
+            <li>Manage complex dependencies and risks across multi-phased program plans, ensuring 100% on-time delivery of enterprise-level milestones.</li>
+            <li>Design and execute comprehensive change management plans to drive stakeholder engagement and ensure seamless adoption of new operational systems and workflows.</li>
           </ul>
-          <div class="tl-tags"><span class="tl-tag">Program Governance</span><span class="tl-tag">Risk Management</span><span class="tl-tag">Change Management</span><span class="tl-tag">Cross-functional</span></div>
+          <div class="tl-tags">
+            <span class="tl-tag">Program Governance</span><span class="tl-tag">Risk Management</span><span class="tl-tag">Change Management</span><span class="tl-tag">Enterprise Programs</span>
+          </div>
         </div>
       </div>
+
       <div class="tl-item reveal">
-        <div class="tl-meta">
+        <div class="tl-left">
           <div class="tl-company">Critical Mass</div>
           <div class="tl-period">01/2024 — Present<br>Remote</div>
-          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="85"></div><div class="tl-dot"></div></div>
+          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="88"></div><div class="tl-dot"></div></div>
         </div>
         <div class="tl-right">
           <div class="tl-role">Quality Control Director</div>
           <ul class="tl-bullets">
-            <li>Spearheaded scalable workflows and automation strategies to enhance accuracy and speed across global digital campaigns.</li>
-            <li>Oversee Digital Asset Management (DAM) operations, ensuring protection and organization of all program-related assets.</li>
-            <li>Act as operational expert and advocate, ensuring all checks and balances are met to enhance the partner experience.</li>
+            <li>Supervise the flawless execution and validation of assets for high-profile global clients including Google, Apple, and AT&amp;T, ensuring peak operational accuracy.</li>
+            <li>Spearhead development of scalable workflows and automation strategies, reducing manual errors and increasing production speed for global digital campaigns.</li>
+            <li>Oversee global DAM operations, ensuring the security, organization, and efficient retrieval of all creative and program-related assets.</li>
+            <li>Serve as the primary operational expert ensuring all creative outputs meet rigorous quality standards to enhance the partner experience.</li>
           </ul>
-          <div class="tl-tags"><span class="tl-tag">Process Optimization</span><span class="tl-tag">DAM</span><span class="tl-tag">Automation</span><span class="tl-tag">Digital Campaigns</span></div>
+          <div class="tl-tags">
+            <span class="tl-tag">DAM</span><span class="tl-tag">QA Strategy</span><span class="tl-tag">Process Optimization</span><span class="tl-tag">Automation</span><span class="tl-tag">Google · Apple · AT&amp;T</span>
+          </div>
         </div>
       </div>
+
       <div class="tl-item reveal">
-        <div class="tl-meta">
+        <div class="tl-left">
           <div class="tl-company">VMware</div>
-          <div class="tl-period">09/2018 — 12/2023<br>5 yrs 3 mos</div>
+          <div class="tl-period">09/2018 — 12/2023<br>5 yrs · 3 mos</div>
           <div class="tl-gantt"><div class="tl-gantt-fill" data-w="100"></div></div>
         </div>
         <div class="tl-right">
-          <div class="tl-role">Brand Engagement &amp; Event Program Manager</div>
+          <div class="tl-role">Brand Engagement, Event Manager &amp; Program Manager</div>
           <ul class="tl-bullets">
-            <li>Served as Program and Engagement Manager for VMware's flagship global events (VMworld &amp; Explore), managing intricate requirements, budgets, and dependencies.</li>
-            <li>Provided brand protection and content guidelines across all outputs to ensure global consistency and governance compliance.</li>
-            <li>Assessed program effectiveness through data reporting, recommending optimizations for resources and team training.</li>
-            <li>Proficiently utilized Workfront and JIRA to track project milestones and asset delivery end-to-end.</li>
-            <li>Served as Web and Content Expert for HR Centers of Excellence, managing digital projects and content strategies.</li>
+            <li>Directed program management for flagship global events (VMworld &amp; Explore), managing multi-million dollar budgets, intricate requirements, and cross-functional dependencies.</li>
+            <li>Acted as Web and Content Expert for HR Centers of Excellence, managing digital projects, web content strategies, and cross-platform storytelling.</li>
+            <li>Enforced brand protection and content guidelines across all global outputs, ensuring 100% brand consistency for a $60 Billion-valued brand.</li>
+            <li>Managed end-to-end project lifecycles using Workfront and JIRA, tracking asset delivery and milestone achievement for global creative teams.</li>
+            <li>Managed reports, scorecards, and analytics for stakeholder groups to drive data-backed improvements and optimize team training.</li>
           </ul>
-          <div class="tl-tags"><span class="tl-tag">VMworld</span><span class="tl-tag">Workfront</span><span class="tl-tag">JIRA</span><span class="tl-tag">Event Management</span><span class="tl-tag">Analytics</span><span class="tl-tag">Brand Governance</span></div>
+          <div class="tl-tags">
+            <span class="tl-tag">VMworld</span><span class="tl-tag">Workfront</span><span class="tl-tag">JIRA</span><span class="tl-tag">Event Management</span><span class="tl-tag">Brand Governance</span><span class="tl-tag">Web Production</span>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <!-- SKILLS -->
 <div id="skills">
-  <div class="section">
-    <div class="section-header reveal">
-      <span class="sh-num">04</span>
-      <h2>SKILLS <span class="accent">&amp; TOOLS</span></h2>
-      <div class="sh-line"></div>
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Skills <span class="accent">&amp; Tools</span></h2>
+      <div class="section-rule"></div>
     </div>
-    <div class="skills-layout">
-      <div class="skill-block reveal">
-        <div class="sb-label">Core Competencies</div>
-        <div class="skill-chips"><span class="chip hi">Program Management</span><span class="chip hi">Strategic Planning</span><span class="chip hi">Change Management</span><span class="chip">Cross-Functional Influence</span><span class="chip hi">Risk Management</span><span class="chip">Stakeholder Management</span><span class="chip hi">Process Optimization</span></div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Program Leadership</div>
+        <div class="chips">
+          <span class="chip hi">Strategic Planning</span><span class="chip hi">Global Program Governance</span><span class="chip hi">Change Management</span><span class="chip">Risk Mitigation</span><span class="chip">Stakeholder Advocacy</span><span class="chip hi">Budget Oversight</span><span class="chip">Cross-Functional Influence</span>
+        </div>
       </div>
-      <div class="skill-block reveal">
-        <div class="sb-label">Events &amp; Logistics</div>
-        <div class="skill-chips"><span class="chip">Event Management</span><span class="chip">Budget Tracking</span><span class="chip">Milestone Mapping</span><span class="chip">Vendor Coordination</span><span class="chip">On-site Support</span></div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Creative Operations</div>
+        <div class="chips">
+          <span class="chip hi">Creative Workflow Optimization</span><span class="chip hi">Digital Asset Management</span><span class="chip">Brand Consistency</span><span class="chip hi">QA Strategy</span><span class="chip">Resource Allocation</span>
+        </div>
       </div>
-      <div class="skill-block reveal">
-        <div class="sb-label">Technical Toolkit</div>
-        <div class="skill-chips"><span class="chip hi">Tableau</span><span class="chip hi">Workfront</span><span class="chip hi">JIRA</span><span class="chip">SharePoint</span><span class="chip">Smartsheet</span><span class="chip">Miro</span><span class="chip">Confluence</span></div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Web &amp; Digital Production</div>
+        <div class="chips">
+          <span class="chip hi">Agile Scrum</span><span class="chip hi">Kanban</span><span class="chip hi">SDLC</span><span class="chip hi">Workfront</span><span class="chip hi">JIRA</span><span class="chip">Smartsheet</span><span class="chip">Miro</span><span class="chip">Confluence</span><span class="chip">SharePoint</span><span class="chip">CMS</span>
+        </div>
       </div>
-      <div class="skill-block reveal">
-        <div class="sb-label">Innovation &amp; Languages</div>
-        <div class="skill-chips"><span class="chip hi">Generative AI</span><span class="chip">Automation Tools</span><span class="chip">Native Spanish</span><span class="chip">Professional English</span></div>
+      <div class="skill-card reveal">
+        <div class="skill-card-label">Innovation &amp; Languages</div>
+        <div class="chips">
+          <span class="chip hi">Lean Six Sigma BB</span><span class="chip hi">Generative AI</span><span class="chip">Automation Tools</span><span class="chip">Resource Forecasting</span><span class="chip">Native Spanish</span><span class="chip">Professional English</span>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- EDUCATION -->
-<div id="education">
-  <div class="section">
-    <div class="section-header reveal">
-      <span class="sh-num">05</span>
-      <h2>EDUCATION <span class="accent">&amp; CERTS</span></h2>
-      <div class="sh-line"></div>
+<div id="education" class="alt-bg">
+  <div class="section-wrap">
+    <div class="section-head reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Education <span class="accent">&amp; Certifications</span></h2>
+      <div class="section-rule"></div>
     </div>
     <div class="edu-grid">
-      <div class="edu-card reveal"><div class="edu-type">⬡ Certification</div><div class="edu-degree">Lean Six Sigma Black Belt</div><div class="edu-inst">Six Sigma Academy Amsterdam</div></div>
-      <div class="edu-card reveal"><div class="edu-type">⬡ Professional Certificate</div><div class="edu-degree">Google Project Management</div><div class="edu-inst">Google</div></div>
-      <div class="edu-card reveal"><div class="edu-type">⬡ Certification</div><div class="edu-degree">Design Thinking Certification</div><div class="edu-inst">INCAE Business School</div></div>
-      <div class="edu-card reveal"><div class="edu-type">⬡ Bachelor of Arts</div><div class="edu-degree">Advertising Design &amp; Media Production</div><div class="edu-inst">Universidad Americana</div></div>
+      <div class="edu-card reveal">
+        <div class="edu-type">⬡ Certification</div>
+        <div class="edu-degree">Lean Six Sigma Black Belt</div>
+        <div class="edu-inst">Six Sigma Academy Amsterdam</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-type">⬡ Professional Certificate</div>
+        <div class="edu-degree">Google Project Management</div>
+        <div class="edu-inst">Google</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-type">⬡ Certification</div>
+        <div class="edu-degree">Design Thinking Certification</div>
+        <div class="edu-inst">INCAE Business School</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-type">⬡ Bachelor of Arts</div>
+        <div class="edu-degree">Advertising Design &amp; Media Production</div>
+        <div class="edu-inst">Universidad Americana</div>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-id"><span>EDGAR BOLAÑOS</span> · Program Leadership · <span>2026</span></div>
+  <div class="footer-id">
+    <strong>Edgar Bolaños</strong> · Senior Program Manager · 2026
+  </div>
   <div class="footer-links">
     <a href="mailto:edgarbolan@gmail.com">Email</a>
     <a href="tel:+50688380582">Phone</a>
@@ -623,206 +968,468 @@ footer{
 </footer>
 
 <!-- DOWNLOAD MODAL -->
-<div id="dl-modal" role="dialog" aria-modal="true">
+<div id="dl-modal" role="dialog" aria-modal="true" aria-label="Download CV">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">[ ESC / CLOSE ]</button>
-    <div class="modal-title">DOWNLOAD <span style="color:var(--teal)">CV</span></div>
-    <div class="modal-sub">// Generating PDF resume from current data</div>
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+    <div class="modal-title">Download CV</div>
+    <div class="modal-sub">Generates a clean 2-page PDF resume ready to send.</div>
     <div id="dl-progress"><div id="dl-fill"></div></div>
     <div id="dl-status"></div>
-    <br>
-    <button class="btn-download" id="dl-btn" onclick="generatePDF()" style="width:100%;justify-content:center;padding:.8rem">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+    <button class="nav-cta" id="dl-btn" onclick="generatePDF()" style="width:100%;justify-content:center;padding:.75rem 1rem;font-size:13px;border-radius:8px;">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg>
       Generate &amp; Download PDF
     </button>
   </div>
 </div>
 
 <script>
-// CURSOR
-const cur = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
-document.addEventListener('mousemove', e => {
-  cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
-  setTimeout(()=>{ ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px'; }, 80);
-});
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px'; });
-  el.addEventListener('mouseleave',()=>{ cur.style.width='8px';cur.style.height='8px';ring.style.width='32px';ring.style.height='32px'; });
-});
-
-// SCROLL REVEAL
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{
-    if(e.isIntersecting){
-      setTimeout(()=>{
+// ── SCROLL REVEAL ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => {
         e.target.classList.add('in');
-        e.target.querySelectorAll('.comp-fill').forEach(b=>b.style.width=b.dataset.w+'%');
-        e.target.querySelectorAll('.tl-gantt-fill').forEach(b=>b.style.width=b.dataset.w+'%');
-      }, i*70);
+        e.target.querySelectorAll('.comp-fill').forEach(b => b.style.width = b.dataset.w + '%');
+        e.target.querySelectorAll('.tl-gantt-fill').forEach(b => b.style.width = b.dataset.w + '%');
+      }, i * 80);
       obs.unobserve(e.target);
     }
   });
-},{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-window.addEventListener('load',()=>{
-  setTimeout(()=>document.querySelectorAll('.pc-bar').forEach(b=>b.style.width=b.dataset.width+'%'), 600);
+// Hero bars on load
+window.addEventListener('load', () => {
+  setTimeout(() => document.querySelectorAll('.prog-bar-fill').forEach(b => b.style.width = b.dataset.w + '%'), 700);
 });
 
-// ACTIVE NAV
-const secs = document.querySelectorAll('[id]'), links = document.querySelectorAll('.topbar-nav a');
-window.addEventListener('scroll',()=>{
-  let c='';
-  secs.forEach(s=>{ if(window.scrollY>=s.offsetTop-120) c=s.id; });
-  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));
-},{passive:true});
+// ── ACTIVE NAV ──
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 140) cur = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
 
-// MODAL
-function openModal(){ document.getElementById('dl-modal').classList.add('open'); }
-function closeModal(){
+// ── MODAL ──
+function openModal() { document.getElementById('dl-modal').classList.add('open'); }
+function closeModal() {
   document.getElementById('dl-modal').classList.remove('open');
-  document.getElementById('dl-progress').style.display='none';
-  document.getElementById('dl-fill').style.width='0';
-  document.getElementById('dl-status').textContent='';
-  const b=document.getElementById('dl-btn');
-  b.disabled=false; b.style.background='';
-  b.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg> Generate &amp; Download PDF';
+  document.getElementById('dl-progress').style.display = 'none';
+  document.getElementById('dl-fill').style.width = '0';
+  document.getElementById('dl-status').textContent = '';
+  const b = document.getElementById('dl-btn');
+  b.disabled = false; b.style.background = '';
+  b.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 2v8M5 7l3 3 3-3M2 13h12"/></svg> Generate &amp; Download PDF';
 }
-document.getElementById('dl-modal').addEventListener('click',e=>{ if(e.target===document.getElementById('dl-modal')) closeModal(); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+document.getElementById('dl-modal').addEventListener('click', e => { if (e.target === document.getElementById('dl-modal')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// PDF
-async function generatePDF(){
-  const btn=document.getElementById('dl-btn'), prog=document.getElementById('dl-progress'),
-        fill=document.getElementById('dl-fill'), status=document.getElementById('dl-status');
-  btn.disabled=true; prog.style.display='block';
-  const steps=[[10,'Initializing document...'],[25,'Building header & profile...'],[45,'Writing experience timeline...'],[65,'Adding skills & achievements...'],[80,'Rendering education & certs...'],[95,'Finalizing PDF...'],[100,'Download ready!']];
-  for(const [p,m] of steps){ fill.style.width=p+'%'; status.textContent='// '+m; await new Promise(r=>setTimeout(r,320)); }
-  try{
-    const {jsPDF}=window.jspdf;
-    const doc=new jsPDF({unit:'pt',format:'letter'});
-    const W=612,H=792;
-    const C={ navy:[8,14,28], teal:[0,212,200], text:[226,232,240], muted:[100,116,139], amber:[245,158,11], border:[30,48,84], panel:[17,29,53] };
-    let y=0;
+// ── PDF GENERATION — Clean 2-page professional resume ──
+async function generatePDF() {
+  const btn = document.getElementById('dl-btn');
+  const prog = document.getElementById('dl-progress');
+  const fill = document.getElementById('dl-fill');
+  const status = document.getElementById('dl-status');
+  btn.disabled = true; prog.style.display = 'block';
 
-    // BG page 1
-    doc.setFillColor(...C.navy); doc.rect(0,0,W,H,'F');
+  const steps = [
+    [15, 'Setting up document…'],
+    [30, 'Building header & summary…'],
+    [50, 'Writing experience…'],
+    [70, 'Adding skills & education…'],
+    [90, 'Finalizing layout…'],
+    [100, 'Ready!']
+  ];
+  for (const [p, m] of steps) {
+    fill.style.width = p + '%'; status.textContent = m;
+    await new Promise(r => setTimeout(r, 280));
+  }
 
-    // Header
-    doc.setFillColor(...C.teal); doc.rect(0,0,W,3,'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(34); doc.setTextColor(...C.teal);
-    doc.text('EDGAR',36,46);
-    doc.setTextColor(...C.text); doc.text('BOLAÑOS',36,77);
-    doc.setFont('courier','normal'); doc.setFontSize(8); doc.setTextColor(...C.muted);
-    doc.text('SENIOR PROGRAM MANAGER  ·  CREATIVE OPERATIONS  ·  QUALITY GOVERNANCE',36,93);
-    doc.setFillColor(...C.panel); doc.rect(0,103,W,1,'F');
-    ['edgarbolan@gmail.com','+506 8838 0582','linkedin.com/in/edgarbolan'].forEach((c,i)=>doc.text(c,W-36,43+i*14,{align:'right'}));
-    y=122;
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    const PW = 612, PH = 792;
+    const ML = 44, MR = 44, MT = 0;
+    const CW = PW - ML - MR; // content width = 524
 
-    const secTitle=(t)=>{
-      doc.setFillColor(...C.panel); doc.rect(0,y-12,W,20,'F');
-      doc.setFillColor(...C.teal); doc.rect(0,y-12,3,20,'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...C.teal);
-      doc.text(t.toUpperCase(),16,y+2); y+=18;
+    // ── COLOUR PALETTE ──
+    const navy  = [10, 15, 30];
+    const slate = [20, 30, 51];
+    const panel = [26, 37, 64];
+    const cyan  = [34, 211, 238];
+    const amber = [251, 191, 36];
+    const white = [241, 245, 249];
+    const mid   = [148, 163, 184];
+    const dim   = [71, 85, 105];
+    const line  = [36, 48, 80];
+
+    let y = 0;
+    let page = 1;
+
+    const newPage = () => {
+      doc.addPage();
+      page++;
+      doc.setFillColor(...navy); doc.rect(0, 0, PW, PH, 'F');
+      y = 36;
     };
-    const bul=(t)=>{
-      doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...C.muted);
-      doc.text('▸',36,y);
-      doc.setTextColor(180,190,210);
-      const lines=doc.splitTextToSize(t,W-88); doc.text(lines,48,y);
-      y+=lines.length*10+2;
+
+    const chk = (need) => { if (y + need > PH - 36) newPage(); };
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // PAGE 1 BACKGROUND
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    doc.setFillColor(...navy); doc.rect(0, 0, PW, PH, 'F');
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // HEADER
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Top accent bar
+    doc.setFillColor(...cyan); doc.rect(0, 0, PW, 4, 'F');
+
+    // Header background
+    doc.setFillColor(...slate); doc.rect(0, 4, PW, 100, 'F');
+
+    // Name
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(28); doc.setTextColor(...white);
+    doc.text('EDGAR', ML, 38);
+    const edgarW = doc.getTextWidth('EDGAR ');
+    doc.setTextColor(...cyan);
+    doc.text('BOLAÑOS', ML + edgarW, 38);
+
+    // Title
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9.5); doc.setTextColor(...mid);
+    doc.text('SENIOR PROGRAM MANAGER  ·  CREATIVE OPERATIONS  ·  DIGITAL ASSET MANAGEMENT', ML, 52);
+
+    // Divider
+    doc.setDrawColor(...line); doc.setLineWidth(.5);
+    doc.line(ML, 60, PW - MR, 60);
+
+    // Contact info row
+    const contacts = [
+      { icon: '✉', val: 'edgarbolan@gmail.com' },
+      { icon: '☎', val: '+506 8838 0582' },
+      { icon: '🔗', val: 'linkedin.com/in/edgarbolan' },
+    ];
+    doc.setFontSize(8.5);
+    contacts.forEach((c, i) => {
+      const cx = ML + i * (CW / 3);
+      doc.setTextColor(...dim); doc.text(c.icon, cx, 75);
+      doc.setTextColor(...mid); doc.text(c.val, cx + 12, 75);
+    });
+
+    // Cert badges top-right
+    const certs = ['Lean Six Sigma BB', 'Google PM Cert', 'Design Thinking'];
+    certs.forEach((cert, i) => {
+      const bx = PW - MR - 105;
+      const by = 8 + i * 14;
+      doc.setFillColor(...panel);
+      doc.roundedRect(bx, by, 100, 11, 2, 2, 'F');
+      doc.setDrawColor(...line);
+      doc.roundedRect(bx, by, 100, 11, 2, 2, 'S');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5); doc.setTextColor(...amber);
+      doc.text(cert.toUpperCase(), bx + 5, by + 8);
+    });
+
+    y = 118;
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // HELPER FUNCTIONS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    const sectionBar = (title) => {
+      chk(28);
+      doc.setFillColor(...panel);
+      doc.rect(0, y - 12, PW, 20, 'F');
+      doc.setFillColor(...cyan);
+      doc.rect(0, y - 12, 3, 20, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9); doc.setTextColor(...cyan);
+      doc.text(title.toUpperCase(), 14, y + 2);
+      // right rule
+      doc.setDrawColor(...line); doc.setLineWidth(.4);
+      doc.line(14 + doc.getTextWidth(title.toUpperCase()) + 8, y - 2, PW - MR, y - 2);
+      y += 16;
     };
-    const newPage=()=>{ doc.addPage(); doc.setFillColor(...C.navy); doc.rect(0,0,W,H,'F'); y=36; };
-    const chk=(n=60)=>{ if(y+n>H-30) newPage(); };
 
-    // PROFILE
-    secTitle('Profile Summary'); y+=4;
-    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(180,190,210);
-    const profLines=doc.splitTextToSize('Strategic Program Leader with 7+ years driving creative business transformation and executing high-impact global multimedia programs. Expert in orchestrating creative workflows, storyboarding alignment, and operational governance. Proven track record managing multi-phased project plans for $60 Billion brands, ensuring brand consistency and flawless execution of visual pursuit messaging.',W-72);
-    doc.text(profLines,36,y); y+=profLines.length*11+10;
-    const kpis=[['7+','Yrs Experience'],['$60B','Brand Programs'],['3','Certifications']];
-    kpis.forEach(([v,l],i)=>{
-      const x=36+i*100;
-      doc.setFillColor(...C.panel); doc.rect(x,y,90,30,'F');
-      doc.setFillColor(...C.teal); doc.rect(x,y,90,2,'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...C.teal);
-      doc.text(v,x+8,y+15);
-      doc.setFont('courier','normal'); doc.setFontSize(7); doc.setTextColor(...C.muted);
-      doc.text(l.toUpperCase(),x+8,y+25);
-    }); y+=44;
+    const bodyLine = (text, indent = ML, maxW = CW, size = 8.5, color = mid) => {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(size); doc.setTextColor(...color);
+      const lines = doc.splitTextToSize(text, maxW);
+      doc.text(lines, indent, y);
+      y += lines.length * (size * 1.35) + 1;
+    };
 
+    const bullet = (text, indent = ML + 14, maxW = CW - 18) => {
+      chk(14);
+      doc.setFillColor(...cyan);
+      doc.circle(indent - 7, y - 2.5, 1.5, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5); doc.setTextColor(...mid);
+      const lines = doc.splitTextToSize(text, maxW);
+      doc.text(lines, indent, y);
+      y += lines.length * 11 + 1.5;
+    };
+
+    const tag = (text, startX) => {
+      const tw = doc.getTextWidth(text) + 10;
+      doc.setFillColor(...panel);
+      doc.roundedRect(startX, y - 7.5, tw, 10, 2, 2, 'F');
+      doc.setDrawColor(...line);
+      doc.roundedRect(startX, y - 7.5, tw, 10, 2, 2, 'S');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5); doc.setTextColor(...dim);
+      doc.text(text, startX + 5, y);
+      return tw + 5;
+    };
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // PROFESSIONAL SUMMARY
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    sectionBar('Professional Summary');
+    y += 3;
+    const summary = 'Strategic Senior Program Leader and Digital Producer with 7+ years spearheading creative business transformations and executing high-impact global multimedia programs. Expert in end-to-end Creative Operations — from storyboarding and brand governance to the deployment of complex digital ecosystems for $60 Billion brands. Proven track record managing high-profile visual pursuit messaging for Google, Apple, AT&T, and VMware. Lean Six Sigma Black Belt bridging creative vision with operational excellence.';
+    bodyLine(summary, ML, CW, 8.5, mid);
+    y += 8;
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // EXPERIENCE
-    chk(80); secTitle('Work Experience'); y+=4;
-    const jobs=[
-      {co:'AKAMAI',role:'Senior Program Manager — Strategic Programs & Operations',period:'05/2025 – Present',buls:['Lead concurrent, complex cross-functional projects ensuring rigorous organizational planning and execution.','Drive strategic process transformations enabling organizations to meet critical operational goals.','Manage risks, dependencies, and issues across multi-phased program plans for flawless delivery.','Execute comprehensive change management plans ensuring high stakeholder engagement.']},
-      {co:'CRITICAL MASS',role:'Quality Control Director',period:'01/2024 – Present',buls:['Spearheaded scalable workflows and automation strategies to enhance accuracy across global digital campaigns.','Oversee Digital Asset Management (DAM) operations, ensuring protection of all program-related assets.','Act as operational expert ensuring all checks and balances are met to enhance partner experience.']},
-      {co:'VMWARE',role:'Brand Engagement & Event Manager & Program Manager',period:'09/2018 – 12/2023',buls:["Served as Program and Engagement Manager for VMware's flagship global events (VMworld & Explore).",'Provided brand protection and content guidelines to ensure global consistency and governance compliance.','Assessed program effectiveness through data reporting, recommending resource optimizations.','Proficiently utilized Workfront and JIRA to track project milestones and asset delivery.','Served as Web and Content Expert for HR Centers of Excellence managing digital content strategies.']},
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    sectionBar('Professional Experience');
+    y += 4;
+
+    const jobs = [
+      {
+        co: 'AKAMAI', role: 'Senior Program Manager — Strategic Programs & Operations',
+        period: '05/2025 – Present  |  San José, CR',
+        bullets: [
+          'Lead concurrent, high-priority cross-functional programs, establishing rigorous planning frameworks and execution standards for global initiatives.',
+          'Drive strategic process transformations, identifying bottlenecks and implementing scalable solutions to meet critical corporate goals.',
+          'Manage complex dependencies and risks across multi-phased program plans, ensuring 100% on-time delivery of enterprise-level milestones.',
+          'Design and execute change management plans ensuring seamless adoption of new operational systems and workflows.',
+        ],
+        tags: ['Program Governance', 'Risk Management', 'Change Management', 'Enterprise Programs']
+      },
+      {
+        co: 'CRITICAL MASS', role: 'Quality Control Director',
+        period: '01/2024 – Present  |  Remote',
+        bullets: [
+          'Supervise flawless execution and validation of assets for high-profile global clients including Google, Apple, and AT&T.',
+          'Spearhead scalable workflows and automation strategies, reducing manual errors and increasing production speed for global digital campaigns.',
+          'Oversee global DAM operations ensuring security, organization, and efficient retrieval of all creative and program-related assets.',
+          'Serve as the primary operational expert ensuring all creative outputs meet rigorous quality standards to enhance the partner experience.',
+        ],
+        tags: ['DAM', 'QA Strategy', 'Process Optimization', 'Automation', 'Google · Apple · AT&T']
+      },
+      {
+        co: 'VMWARE', role: 'Brand Engagement, Event Manager & Program Manager',
+        period: '09/2018 – 12/2023  |  5 yrs 3 mos',
+        bullets: [
+          'Directed program management for flagship global events (VMworld & Explore) managing multi-million dollar budgets and cross-functional dependencies.',
+          'Acted as Web and Content Expert for HR Centers of Excellence, managing digital projects and cross-platform content strategies.',
+          'Enforced brand protection and content guidelines across all global outputs, ensuring 100% consistency for a $60 Billion-valued brand.',
+          'Managed end-to-end project lifecycles via Workfront and JIRA; produced scorecards and analytics for stakeholder groups.',
+        ],
+        tags: ['VMworld', 'Workfront', 'JIRA', 'Event Management', 'Brand Governance', 'Web Production']
+      }
     ];
-    jobs.forEach(j=>{
-      chk(80);
-      doc.setFillColor(...C.panel); doc.rect(0,y-4,W,18,'F');
-      doc.setFillColor(...C.teal); doc.rect(0,y-4,2,18,'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...C.teal);
-      doc.text(j.co,14,y+7);
-      const coW=doc.getTextWidth(j.co)+10;
-      doc.setFontSize(8.5); doc.setTextColor(...C.text);
-      doc.text(j.role,14+coW,y+7);
-      doc.setFont('courier','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
-      doc.text(j.period,W-36,y+7,{align:'right'});
-      y+=22; j.buls.forEach(b=>{chk(18);bul(b);}); y+=6;
+
+    jobs.forEach(j => {
+      chk(70);
+      // Company bar
+      doc.setFillColor(20, 30, 51);
+      doc.rect(ML - 4, y - 10, CW + 8, 18, 'F');
+      doc.setFillColor(...cyan); doc.rect(ML - 4, y - 10, 2, 18, 'F');
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5); doc.setTextColor(...cyan);
+      doc.text(j.co, ML + 4, y + 2);
+      const coW = doc.getTextWidth(j.co) + 10;
+      doc.setFontSize(8.5); doc.setTextColor(...white);
+      doc.text(j.role, ML + 4 + coW, y + 2);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...dim);
+      doc.text(j.period, PW - MR, y + 2, { align: 'right' });
+      y += 16;
+
+      j.bullets.forEach(b => { chk(16); bullet(b); });
+
+      // Tags
+      chk(16);
+      y += 3;
+      let tx = ML + 14;
+      j.tags.forEach(t => {
+        if (tx + doc.getTextWidth(t) + 14 > PW - MR) { tx = ML + 14; y += 13; }
+        tx += tag(t, tx);
+      });
+      y += 14;
     });
 
-    // SKILLS
-    chk(80); secTitle('Skills & Tools'); y+=4;
-    const skillSets=[
-      {l:'Core Competencies',items:['Program Management','Strategic Planning','Change Management','Risk Management','Process Optimization','Stakeholder Management','Cross-Functional Influence']},
-      {l:'Technical Toolkit',items:['Tableau','Workfront','JIRA','SharePoint','Smartsheet','Miro','Confluence']},
-      {l:'Events & Logistics',items:['Event Management','Budget Tracking','Milestone Mapping','Vendor Coordination','On-site Support']},
-      {l:'Innovation',items:['Generative AI','Automation Tools','Native Spanish','Professional English']},
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // PAGE 2: SKILLS + EDUCATION
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    newPage();
+
+    // Page 2 mini-header
+    doc.setFillColor(...slate); doc.rect(0, 0, PW, 28, 'F');
+    doc.setFillColor(...cyan); doc.rect(0, 0, PW, 2, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...cyan);
+    doc.text('EDGAR BOLAÑOS', ML, 18);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...dim);
+    doc.text('Senior Program Manager · Creative Operations · Digital Asset Management', ML + doc.getTextWidth('EDGAR BOLAÑOS') + 8, 18);
+    doc.setTextColor(...dim); doc.text('Page 2 / 2', PW - MR, 18, { align: 'right' });
+    y = 44;
+
+    // ── TWO-COLUMN LAYOUT for page 2 ──
+    const col1W = CW * 0.52;
+    const col2W = CW * 0.44;
+    const col2X = ML + col1W + CW * 0.04;
+
+    // Save y for second column to start at same point
+    let col1Y = y;
+    let col2Y = y;
+
+    // ── COLUMN 1: CORE COMPETENCIES ──
+    y = col1Y;
+    const drawSectionLabel = (label, xPos, w) => {
+      doc.setFillColor(...panel); doc.rect(xPos - 4, y - 10, w + 8, 17, 'F');
+      doc.setFillColor(...cyan); doc.rect(xPos - 4, y - 10, 2, 17, 'F');
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor(...cyan);
+      doc.text(label.toUpperCase(), xPos + 4, y + 2);
+      y += 14;
+    };
+
+    const drawChips = (items, xPos, maxW, highlightItems = []) => {
+      let cx = xPos;
+      items.forEach(item => {
+        const tw = doc.getTextWidth(item) + 10;
+        if (cx + tw > xPos + maxW) { cx = xPos; y += 13; }
+        const isHi = highlightItems.includes(item);
+        if (isHi) {
+          doc.setFillColor(34, 80, 100);
+          doc.setDrawColor(...cyan);
+        } else {
+          doc.setFillColor(...panel);
+          doc.setDrawColor(...line);
+        }
+        doc.roundedRect(cx, y - 8, tw, 11, 2, 2, 'F');
+        doc.roundedRect(cx, y - 8, tw, 11, 2, 2, 'S');
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
+        doc.setTextColor(isHi ? ...[34, 211, 238] : [...mid]);
+        doc.text(item, cx + 5, y);
+        cx += tw + 4;
+      });
+      y += 14;
+    };
+
+    drawSectionLabel('Program Leadership', ML, col1W);
+    y += 3;
+    drawChips(
+      ['Strategic Planning', 'Program Governance', 'Change Management', 'Risk Mitigation', 'Stakeholder Advocacy', 'Budget Oversight', 'Cross-Functional'],
+      ML, col1W,
+      ['Strategic Planning', 'Program Governance', 'Change Management', 'Budget Oversight']
+    );
+    y += 4;
+
+    drawSectionLabel('Creative Operations & DAM', ML, col1W);
+    y += 3;
+    drawChips(
+      ['Creative Workflow Opt.', 'Digital Asset Mgmt', 'Brand Consistency', 'QA Strategy', 'Resource Allocation'],
+      ML, col1W,
+      ['Digital Asset Mgmt', 'QA Strategy', 'Creative Workflow Opt.']
+    );
+    y += 4;
+
+    drawSectionLabel('Web & Digital Production', ML, col1W);
+    y += 3;
+    drawChips(
+      ['Agile Scrum', 'Kanban', 'SDLC', 'Workfront', 'JIRA', 'Smartsheet', 'Miro', 'Confluence', 'SharePoint', 'CMS'],
+      ML, col1W,
+      ['Agile Scrum', 'SDLC', 'Workfront', 'JIRA']
+    );
+    y += 4;
+
+    drawSectionLabel('Innovation & Languages', ML, col1W);
+    y += 3;
+    drawChips(
+      ['Lean Six Sigma BB', 'Generative AI', 'Automation Tools', 'Resource Forecasting', 'Native Spanish', 'Prof. English'],
+      ML, col1W,
+      ['Lean Six Sigma BB', 'Generative AI']
+    );
+
+    col1Y = y + 10;
+
+    // ── COLUMN 2: EDUCATION & KEY CLIENTS ──
+    y = col2Y;
+
+    drawSectionLabel('Education & Certifications', col2X, col2W);
+    y += 3;
+
+    const eduItems = [
+      { type: 'Certification', degree: 'Lean Six Sigma Black Belt', inst: 'Six Sigma Academy Amsterdam' },
+      { type: 'Professional Cert.', degree: 'Google Project Management', inst: 'Google' },
+      { type: 'Certification', degree: 'Design Thinking', inst: 'INCAE Business School' },
+      { type: 'Bachelor of Arts', degree: 'Advertising Design & Media Production', inst: 'Universidad Americana' },
     ];
-    skillSets.forEach(ss=>{
-      chk(36);
-      doc.setFont('courier','bold'); doc.setFontSize(7.5); doc.setTextColor(...C.teal);
-      doc.text('// '+ss.l.toUpperCase(),36,y); y+=10;
-      let cx=36;
-      ss.items.forEach(item=>{
-        const tw=doc.getTextWidth(item)+12;
-        if(cx+tw>W-36){cx=36;y+=14;}
-        doc.setFillColor(...C.panel); doc.roundedRect(cx,y-9,tw,12,2,2,'F');
-        doc.setDrawColor(...C.border); doc.roundedRect(cx,y-9,tw,12,2,2,'S');
-        doc.setFont('courier','normal'); doc.setFontSize(7); doc.setTextColor(...C.text);
-        doc.text(item,cx+6,y); cx+=tw+5;
-      }); y+=18;
+    eduItems.forEach(e => {
+      doc.setFillColor(...panel);
+      doc.roundedRect(col2X - 4, y - 8, col2W + 8, 34, 3, 3, 'F');
+      doc.setDrawColor(...line);
+      doc.roundedRect(col2X - 4, y - 8, col2W + 8, 34, 3, 3, 'S');
+      doc.setFillColor(...amber); doc.rect(col2X - 4, y - 8, 2, 34, 'F');
+
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...amber);
+      doc.text(e.type.toUpperCase(), col2X + 5, y + 1);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor(...white);
+      const degLines = doc.splitTextToSize(e.degree, col2W - 10);
+      doc.text(degLines, col2X + 5, y + 11);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...dim);
+      doc.text(e.inst, col2X + 5, y + 22);
+      y += 40;
     });
 
-    // EDUCATION
-    chk(90); secTitle('Education & Certifications'); y+=4;
-    const edu=[
-      {t:'CERTIFICATION',d:'Lean Six Sigma Black Belt',i:'Six Sigma Academy Amsterdam'},
-      {t:'PROFESSIONAL CERTIFICATE',d:'Google Project Management',i:'Google'},
-      {t:'CERTIFICATION',d:'Design Thinking Certification',i:'INCAE Business School'},
-      {t:'BACHELOR OF ARTS',d:'Advertising Design & Media Production',i:'Universidad Americana'},
-    ];
-    edu.forEach((e,idx)=>{
-      const col=idx%2, ex=col===0?36:W/2+10;
-      if(col===0&&idx>0) y+=4;
-      chk(44);
-      doc.setFillColor(...C.panel); doc.rect(ex,y-4,W/2-46,40,'F');
-      doc.setFillColor(...C.amber); doc.rect(ex,y-4,2,40,'F');
-      doc.setFont('courier','normal'); doc.setFontSize(7); doc.setTextColor(...C.amber);
-      doc.text(e.t,ex+8,y+5);
-      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...C.text);
-      doc.text(e.d,ex+8,y+17);
-      doc.setFont('courier','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
-      doc.text(e.i,ex+8,y+28);
-      if(col===1) y+=44;
-    }); y+=44;
+    y += 6;
+    drawSectionLabel('Key Clients & Brands', col2X, col2W);
+    y += 5;
+    const clients = ['Google', 'Apple', 'AT&T', 'VMware'];
+    clients.forEach(c => {
+      doc.setFillColor(...panel);
+      doc.roundedRect(col2X - 4, y - 8, col2W + 8, 16, 3, 3, 'F');
+      doc.setDrawColor(...line);
+      doc.roundedRect(col2X - 4, y - 8, col2W + 8, 16, 3, 3, 'S');
+      doc.setFillColor(...cyan); doc.rect(col2X - 4, y - 8, 2, 16, 'F');
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor(...white);
+      doc.text(c, col2X + 7, y + 2);
+      y += 21;
+    });
+
+    col2Y = y;
+
+    // Bottom watermark / page footer
+    const footY = PH - 20;
+    doc.setDrawColor(...line); doc.setLineWidth(.3);
+    doc.line(ML, footY - 8, PW - MR, footY - 8);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...dim);
+    doc.text('Edgar Bolaños  ·  edgarbolan@gmail.com  ·  +506 8838 0582  ·  linkedin.com/in/edgarbolan', ML, footY);
+    doc.text('2026', PW - MR, footY, { align: 'right' });
+
+    // Also add footer to page 1
+    doc.setPage(1);
+    doc.setDrawColor(...line); doc.setLineWidth(.3);
+    doc.line(ML, footY - 8, PW - MR, footY - 8);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(...dim);
+    doc.text('Edgar Bolaños  ·  edgarbolan@gmail.com  ·  +506 8838 0582  ·  linkedin.com/in/edgarbolan', ML, footY);
+    doc.text('1 / 2', PW - MR, footY, { align: 'right' });
 
     doc.save('Edgar_Bolanos_Resume_2026.pdf');
-    status.textContent='// Download complete!';
-    btn.innerHTML='✓ Downloaded!'; btn.style.background='var(--green)';
-    setTimeout(closeModal,1800);
-  } catch(err){ status.textContent='// Error: '+err.message; btn.disabled=false; }
+    status.textContent = 'Download complete!';
+    btn.innerHTML = '✓ Downloaded successfully';
+    btn.style.background = '#4ade80'; btn.style.color = '#052e16';
+    setTimeout(closeModal, 2000);
+  } catch (err) {
+    status.textContent = 'Error: ' + err.message;
+    btn.disabled = false;
+  }
 }
 </script>
 </body>
