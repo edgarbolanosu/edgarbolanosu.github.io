@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Edgar Bolaños · Program Leader</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300&family=Bebas+Neue&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#080e1c;
+  --navy2:#0d1628;
+  --panel:#111d35;
+  --border:#1e3054;
+  --teal:#00d4c8;
+  --teal2:#00a89e;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --green:#22c55e;
+  --text:#e2e8f0;
+  --muted:#64748b;
+  --dim:#334155;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;overflow-x:hidden;cursor:none}
+
+/* ── CUSTOM CURSOR ── */
+#cursor{position:fixed;width:8px;height:8px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s}
+#cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(0,212,200,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out,width .25s,height .25s}
+
+/* ── SCANLINES ── */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:1000}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(8,14,28,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;height:52px;
+}
+.topbar-left{display:flex;align-items:center;gap:2rem}
+.topbar-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.25rem;letter-spacing:.1em;
+  color:var(--teal);
+}
+.topbar-status{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  color:var(--green);letter-spacing:.15em;text-transform:uppercase;
+}
+.status-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+.topbar-nav{display:flex;gap:0;align-items:center}
+.topbar-nav a{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  padding:.4rem 1rem;
+  border-right:1px solid var(--border);
+  transition:color .2s,background .2s;
+}
+.topbar-nav a:first-child{border-left:1px solid var(--border)}
+.topbar-nav a:hover,.topbar-nav a.active{color:var(--teal);background:rgba(0,212,200,.06)}
+
+.btn-download{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--navy);background:var(--teal);
+  border:none;padding:.5rem 1.2rem;
+  cursor:none;transition:background .2s,transform .15s;
+  font-weight:600;
+}
+.btn-download:hover{background:var(--teal2);transform:translateY(-1px)}
+.btn-download svg{width:12px;height:12px;flex-shrink:0}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;padding-top:52px;
+  display:grid;grid-template-columns:1fr 400px;
+  position:relative;overflow:hidden;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,212,200,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,200,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 3rem 5rem 3.5rem;position:relative;z-index:2;
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:1rem;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:2rem;
+}
+.hero-eyebrow::before{content:'[';color:var(--muted)}
+.hero-eyebrow::after{content:']';color:var(--muted)}
+h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,8vw,7rem);
+  line-height:.92;letter-spacing:.03em;
+  margin-bottom:1.5rem;
+}
+h1 .last{color:var(--teal);display:block}
+.hero-subtitle{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--muted);letter-spacing:.08em;line-height:1.8;
+  border-left:2px solid var(--teal);padding-left:1rem;
+  margin-bottom:2.5rem;
+}
+.hero-contacts{display:flex;flex-direction:column;gap:.5rem;margin-bottom:2.5rem}
+.hero-contacts a{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--text);text-decoration:none;letter-spacing:.04em;
+  display:flex;align-items:center;gap:.6rem;
+  transition:color .2s;
+}
+.hero-contacts a:hover{color:var(--teal)}
+.hero-contacts a .lbl{color:var(--muted);min-width:60px}
+
+.kpi-row{display:flex;gap:1.5rem}
+.kpi{
+  background:var(--panel);border:1px solid var(--border);
+  padding:.8rem 1.2rem;flex:1;
+  position:relative;overflow:hidden;
+}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal)}
+.kpi-val{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;
+  color:var(--teal);line-height:1;
+}
+.kpi-label{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  margin-top:.2rem;
+}
+
+/* hero right — program board */
+.hero-right{
+  background:var(--panel);
+  border-left:1px solid var(--border);
+  padding:2rem;display:flex;flex-direction:column;gap:1rem;
+  position:relative;z-index:2;overflow:hidden;
+}
+.hero-right-label{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:.3em;color:var(--teal);
+  border-bottom:1px solid var(--border);
+  padding-bottom:.8rem;margin-bottom:.4rem;
+}
+.program-card{
+  background:var(--navy2);border:1px solid var(--border);
+  padding:1rem 1.2rem;
+  position:relative;
+  transition:border-color .2s,transform .2s;
+}
+.program-card:hover{border-color:var(--teal);transform:translateX(4px)}
+.program-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;
+}
+.program-card.s-active::before{background:var(--green)}
+.program-card.s-current::before{background:var(--teal)}
+.program-card.s-complete::before{background:var(--muted)}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
+.pc-name{font-weight:500;font-size:12px;color:var(--text)}
+.pc-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:.1em;padding:.15rem .5rem;
+  border-radius:2px;text-transform:uppercase;
+}
+.pc-badge.active{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.pc-badge.current{background:rgba(0,212,200,.1);color:var(--teal);border:1px solid rgba(0,212,200,.2)}
+.pc-badge.complete{background:rgba(100,116,139,.12);color:var(--muted);border:1px solid rgba(100,116,139,.2)}
+.pc-company{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:.7rem}
+.pc-bar-wrap{background:var(--border);height:3px;border-radius:1px;margin-top:.4rem}
+.pc-bar{height:3px;border-radius:1px;background:var(--teal);width:0;transition:width 1.5s ease}
+.pc-meta{display:flex;justify-content:space-between;margin-top:.3rem}
+.pc-meta span{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted)}
+.cert-strip{margin-top:auto;border-top:1px solid var(--border);padding-top:1rem}
+.cert-strip-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem}
+.cert-chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.cert-chip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:8px;padding:.2rem .5rem;letter-spacing:.1em}
+
+/* ── SECTION BASE ── */
+.section{max-width:1200px;margin:0 auto;padding:5rem 3.5rem}
+.section-header{
+  display:flex;align-items:center;gap:1.5rem;
+  margin-bottom:3rem;
+}
+.sh-num{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  color:var(--teal);letter-spacing:.2em;
+  background:rgba(0,212,200,.08);border:1px solid rgba(0,212,200,.2);
+  padding:.25rem .6rem;
+}
+.sh-line{flex:1;height:1px;background:var(--border)}
+h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;letter-spacing:.06em;line-height:1;
+}
+h2 .accent{color:var(--teal)}
+
+/* ── PROFILE ── */
+#profile{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.profile-text{
+  font-size:14px;
+  color:rgba(226,232,240,.75);line-height:1.8;
+}
+.profile-text strong{color:var(--teal);font-weight:500}
+.competencies{display:flex;flex-direction:column;gap:.8rem}
+.comp-item{display:flex;flex-direction:column;gap:.3rem}
+.comp-top{display:flex;justify-content:space-between}
+.comp-name{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text)}
+.comp-pct{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--teal)}
+.comp-track{background:var(--border);height:4px;border-radius:2px;overflow:hidden}
+.comp-fill{height:4px;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:2px;width:0;transition:width 1.2s ease}
+
+/* ── KANBAN ── */
+#achievements{background:var(--navy)}
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.kanban-col-header{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase;
+  padding:.5rem 1rem;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.kanban-col-header.teal{color:var(--teal);border-bottom:2px solid var(--teal);background:rgba(0,212,200,.04)}
+.kanban-col-header.amber{color:var(--amber);border-bottom:2px solid var(--amber);background:rgba(245,158,11,.04)}
+.kanban-col-header.green{color:var(--green);border-bottom:2px solid var(--green);background:rgba(34,197,94,.04)}
+.k-count{font-family:'IBM Plex Mono',monospace;font-size:8px;background:var(--border);padding:.1rem .4rem;border-radius:2px;margin-left:auto}
+.kanban-card{
+  background:var(--panel);border:1px solid var(--border);
+  padding:1.2rem;margin-bottom:.8rem;
+  transition:transform .2s,border-color .2s;
+}
+.kanban-card:hover{transform:translateY(-3px);border-color:rgba(0,212,200,.3)}
+.kc-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.kc-title{font-weight:500;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem}
+.kc-desc{font-size:11px;color:var(--muted);line-height:1.6}
+
+/* ── EXPERIENCE ── */
+#experience{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.timeline{display:flex;flex-direction:column}
+.tl-item{
+  display:grid;grid-template-columns:200px 1fr;
+  gap:2.5rem;padding:2.5rem 0;
+  border-bottom:1px solid var(--border);
+}
+.tl-item:last-child{border-bottom:none}
+.tl-company{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;color:var(--teal);margin-bottom:.2rem}
+.tl-period{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.04em;line-height:1.7}
+.tl-gantt{background:var(--border);height:3px;margin-top:.8rem;position:relative;border-radius:1px}
+.tl-gantt-fill{height:3px;background:linear-gradient(90deg,var(--teal),rgba(0,212,200,.3));border-radius:1px;width:0;transition:width 1.5s ease}
+.tl-dot{position:absolute;right:0;top:50%;transform:translateY(-50%);width:7px;height:7px;background:var(--teal);border-radius:50%;box-shadow:0 0 6px var(--teal)}
+.tl-role{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.04em;line-height:1;margin-bottom:1rem}
+.tl-bullets{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+.tl-bullets li{font-size:12px;color:rgba(226,232,240,.7);line-height:1.6;display:flex;gap:.7rem}
+.tl-bullets li::before{content:'▸';color:var(--teal);flex-shrink:0;font-size:10px;margin-top:.2em}
+.tl-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.tl-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--dim);color:var(--muted);
+  padding:.2rem .5rem;border-radius:2px;transition:all .2s;
+}
+.tl-tag:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── SKILLS ── */
+#skills{background:var(--navy)}
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.skill-block{background:var(--panel);border:1px solid var(--border);padding:1.5rem}
+.sb-label{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:.25em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:1.2rem;
+  padding-bottom:.6rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.5rem;
+}
+.sb-label::before{content:'//'}
+.skill-chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:.08em;color:var(--text);
+  background:var(--navy2);border:1px solid var(--border);
+  padding:.3rem .7rem;border-radius:2px;transition:all .2s;cursor:default;
+}
+.chip:hover{background:rgba(0,212,200,.08);border-color:var(--teal);color:var(--teal)}
+.chip.hi{border-color:rgba(0,212,200,.3);color:var(--teal);background:rgba(0,212,200,.06)}
+
+/* ── EDUCATION ── */
+#education{background:var(--navy2);border-top:1px solid var(--border)}
+.edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
+.edu-card{
+  background:var(--panel);border:1px solid var(--border);
+  padding:1.5rem;position:relative;overflow:hidden;transition:border-color .2s;
+}
+.edu-card:hover{border-color:var(--teal)}
+.edu-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--teal);transition:width .4s}
+.edu-card:hover::after{width:100%}
+.edu-type{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem}
+.edu-degree{font-weight:500;font-size:13px;margin-bottom:.3rem;line-height:1.3}
+.edu-inst{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--navy);border-top:1px solid var(--border);
+  padding:2rem 3.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-id{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em}
+.footer-id span{color:var(--teal)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.footer-links a:hover{color:var(--teal)}
+
+/* ── DOWNLOAD MODAL ── */
+#dl-modal{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(8,14,28,.85);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+}
+#dl-modal.open{display:flex}
+.modal-box{
+  background:var(--panel);border:1px solid var(--border);
+  padding:2.5rem;max-width:420px;width:90%;position:relative;
+}
+.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal)}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;margin-bottom:.4rem}
+.modal-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:2rem}
+#dl-progress{background:var(--border);height:4px;border-radius:2px;overflow:hidden;margin-bottom:1.2rem;display:none}
+#dl-fill{height:4px;background:linear-gradient(90deg,var(--teal),var(--teal2));width:0;transition:width .3s;border-radius:2px}
+#dl-status{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--teal);letter-spacing:.1em;min-height:1.2em}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:none;border:none;color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  cursor:none;transition:color .2s;letter-spacing:.1em;
+}
+.modal-close:hover{color:var(--teal)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-left{padding:3rem 1.5rem}
+  .section{padding:3.5rem 1.5rem}
+  .profile-grid,.kanban,.skills-layout,.edu-grid{grid-template-columns:1fr}
+  .tl-item{grid-template-columns:1fr;gap:.8rem}
+  .tl-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .tl-gantt{display:none}
+  .topbar-nav{display:none}
+  footer{flex-direction:column;gap:1rem;padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">EB</div>
+    <div class="topbar-status">
+      <span class="status-dot"></span>
+      Available for Opportunities
+    </div>
+  </div>
+  <nav class="topbar-nav">
+    <a href="#profile">Profile</a>
+    <a href="#achievements">Highlights</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+  </nav>
+  <button class="btn-download" onclick="openModal()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+    Download CV
+  </button>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Senior Program Manager · Creative Operations</div>
+    <h1>Edgar<span class="last">Bolaños</span></h1>
+    <p class="hero-subtitle">
+      Program Governance · Creative Ops · Quality Control<br>
+      Strategic Execution · Change Management · $60B Brand Scale
+    </p>
+    <div class="hero-contacts">
+      <a href="mailto:edgarbolan@gmail.com"><span class="lbl">EMAIL</span>edgarbolan@gmail.com</a>
+      <a href="tel:+50688380582"><span class="lbl">PHONE</span>+506 8838 0582</a>
+      <a href="https://linkedin.com/in/edgarbolan/" target="_blank" rel="noopener"><span class="lbl">LINKED</span>linkedin.com/in/edgarbolan</a>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val">7+</div><div class="kpi-label">Yrs Experience</div></div>
+      <div class="kpi"><div class="kpi-val">$60B</div><div class="kpi-label">Brand Programs</div></div>
+      <div class="kpi"><div class="kpi-val">3</div><div class="kpi-label">Certifications</div></div>
+    </div>
+  </div>
+  <div class="hero-right" aria-hidden="true">
+    <div class="hero-right-label">ACTIVE PROGRAMS</div>
+    <div class="program-card s-active">
+      <div class="pc-top"><div class="pc-name">Strategic Programs &amp; Ops</div><span class="pc-badge active">● Active</span></div>
+      <div class="pc-company">Akamai · Sr. Program Manager</div>
+      <div class="pc-bar-wrap"><div class="pc-bar" data-width="72"></div></div>
+      <div class="pc-meta"><span>05/2025 – Present</span><span>72%</span></div>
+    </div>
+    <div class="program-card s-current">
+      <div class="pc-top"><div class="pc-name">Quality Control &amp; Governance</div><span class="pc-badge current">◈ Concurrent</span></div>
+      <div class="pc-company">Critical Mass · QC Director</div>
+      <div class="pc-bar-wrap"><div class="pc-bar" data-width="88"></div></div>
+      <div class="pc-meta"><span>01/2024 – Present</span><span>88%</span></div>
+    </div>
+    <div class="program-card s-complete">
+      <div class="pc-top"><div class="pc-name">VMworld &amp; Explore Events</div><span class="pc-badge complete">✓ Delivered</span></div>
+      <div class="pc-company">VMware · Brand &amp; Event PM</div>
+      <div class="pc-bar-wrap"><div class="pc-bar" data-width="100"></div></div>
+      <div class="pc-meta"><span>09/2018 – 12/2023</span><span>100%</span></div>
+    </div>
+    <div class="cert-strip">
+      <div class="cert-strip-lbl">Certifications</div>
+      <div class="cert-chips">
+        <span class="cert-chip">LEAN SIX SIGMA BB</span>
+        <span class="cert-chip">GOOGLE PM</span>
+        <span class="cert-chip">DESIGN THINKING</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<div id="profile">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="sh-num">01</span>
+      <h2>PROFILE <span class="accent">SUMMARY</span></h2>
+      <div class="sh-line"></div>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-text reveal">
+        <p>Strategic Program Leader with over <strong>7 years of experience</strong> driving creative business transformation and executing <strong>high-impact global multimedia programs</strong>. Expert in orchestrating creative workflows, storyboarding alignment, and operational governance within fast-paced corporate environments.</p>
+        <br>
+        <p>Proven track record of managing complex, multi-phased project plans for <strong>$60 Billion brands</strong>, ensuring brand consistency and the flawless execution of visual pursuit messaging. Fluent in translating ambiguous strategic goals into actionable, measurable delivery frameworks.</p>
+      </div>
+      <div class="competencies reveal">
+        <div class="comp-item"><div class="comp-top"><span class="comp-name">Program Governance</span><span class="comp-pct">95%</span></div><div class="comp-track"><div class="comp-fill" data-w="95"></div></div></div>
+        <div class="comp-item"><div class="comp-top"><span class="comp-name">Strategic Planning</span><span class="comp-pct">92%</span></div><div class="comp-track"><div class="comp-fill" data-w="92"></div></div></div>
+        <div class="comp-item"><div class="comp-top"><span class="comp-name">Change Management</span><span class="comp-pct">90%</span></div><div class="comp-track"><div class="comp-fill" data-w="90"></div></div></div>
+        <div class="comp-item"><div class="comp-top"><span class="comp-name">Stakeholder Influence</span><span class="comp-pct">93%</span></div><div class="comp-track"><div class="comp-fill" data-w="93"></div></div></div>
+        <div class="comp-item"><div class="comp-top"><span class="comp-name">Risk Management</span><span class="comp-pct">88%</span></div><div class="comp-track"><div class="comp-fill" data-w="88"></div></div></div>
+        <div class="comp-item"><div class="comp-top"><span class="comp-name">Process Optimization</span><span class="comp-pct">91%</span></div><div class="comp-track"><div class="comp-fill" data-w="91"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENTS KANBAN -->
+<div id="achievements">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="sh-num">02</span>
+      <h2>KEY <span class="accent">ACHIEVEMENTS</span></h2>
+      <div class="sh-line"></div>
+    </div>
+    <div class="kanban reveal">
+      <div class="kanban-col">
+        <div class="kanban-col-header teal">Delivery <span class="k-count">2</span></div>
+        <div class="kanban-card"><div class="kc-tag">Global Scale</div><div class="kc-title">$60B Brand Program Management</div><div class="kc-desc">Managed deliverables for flagship global events contributing to a $60 Billion-valued technology brand — ensuring flawless execution under high-stakes conditions.</div></div>
+        <div class="kanban-card"><div class="kc-tag">Event Leadership</div><div class="kc-title">VMworld &amp; Explore — Global Flagship</div><div class="kc-desc">Led end-to-end program management for VMware's most prominent annual events, coordinating cross-functional teams, budgets, and complex multi-track dependencies.</div></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header amber">Operations <span class="k-count">2</span></div>
+        <div class="kanban-card"><div class="kc-tag">Quality Control</div><div class="kc-title">Zero-Defect Asset Execution</div><div class="kc-desc">Supervised validation and delivery of assets for high-profile global clients, achieving zero-defect output standards across digital campaigns at scale.</div></div>
+        <div class="kanban-card"><div class="kc-tag">Process Design</div><div class="kc-title">Scalable Automation Workflows</div><div class="kc-desc">Spearheaded workflow automation strategies at Critical Mass, dramatically increasing accuracy and speed across global digital campaign pipelines.</div></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-col-header green">Impact <span class="k-count">2</span></div>
+        <div class="kanban-card"><div class="kc-tag">Governance</div><div class="kc-title">Brand &amp; Content Compliance</div><div class="kc-desc">Established brand protection protocols and content guidelines across global VMware outputs, ensuring consistency across all markets and channels.</div></div>
+        <div class="kanban-card"><div class="kc-tag">Transformation</div><div class="kc-title">Change Management at Scale</div><div class="kc-desc">Drove strategic process transformations at Akamai, enabling organizations to adopt new systems with high stakeholder engagement and minimal disruption.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div id="experience">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="sh-num">03</span>
+      <h2>WORK <span class="accent">EXPERIENCE</span></h2>
+      <div class="sh-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-company">Akamai</div>
+          <div class="tl-period">05/2025 — Present<br>San José, CR</div>
+          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="70"></div><div class="tl-dot"></div></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Sr. Program Manager — Strategic Programs &amp; Ops</div>
+          <ul class="tl-bullets">
+            <li>Lead concurrent, complex cross-functional projects ensuring rigorous organizational planning and execution through program governance frameworks.</li>
+            <li>Drive strategic process transformations and business programs enabling organizations to meet critical operational goals.</li>
+            <li>Manage risks, dependencies, and issues across multi-phased program plans to ensure flawless delivery.</li>
+            <li>Execute comprehensive change management plans ensuring high stakeholder engagement and successful adoption of new systems and workflows.</li>
+          </ul>
+          <div class="tl-tags"><span class="tl-tag">Program Governance</span><span class="tl-tag">Risk Management</span><span class="tl-tag">Change Management</span><span class="tl-tag">Cross-functional</span></div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-company">Critical Mass</div>
+          <div class="tl-period">01/2024 — Present<br>Remote</div>
+          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="85"></div><div class="tl-dot"></div></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Quality Control Director</div>
+          <ul class="tl-bullets">
+            <li>Spearheaded scalable workflows and automation strategies to enhance accuracy and speed across global digital campaigns.</li>
+            <li>Oversee Digital Asset Management (DAM) operations, ensuring protection and organization of all program-related assets.</li>
+            <li>Act as operational expert and advocate, ensuring all checks and balances are met to enhance the partner experience.</li>
+          </ul>
+          <div class="tl-tags"><span class="tl-tag">Process Optimization</span><span class="tl-tag">DAM</span><span class="tl-tag">Automation</span><span class="tl-tag">Digital Campaigns</span></div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-company">VMware</div>
+          <div class="tl-period">09/2018 — 12/2023<br>5 yrs 3 mos</div>
+          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="100"></div></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Brand Engagement &amp; Event Program Manager</div>
+          <ul class="tl-bullets">
+            <li>Served as Program and Engagement Manager for VMware's flagship global events (VMworld &amp; Explore), managing intricate requirements, budgets, and dependencies.</li>
+            <li>Provided brand protection and content guidelines across all outputs to ensure global consistency and governance compliance.</li>
+            <li>Assessed program effectiveness through data reporting, recommending optimizations for resources and team training.</li>
+            <li>Proficiently utilized Workfront and JIRA to track project milestones and asset delivery end-to-end.</li>
+            <li>Served as Web and Content Expert for HR Centers of Excellence, managing digital projects and content strategies.</li>
+          </ul>
+          <div class="tl-tags"><span class="tl-tag">VMworld</span><span class="tl-tag">Workfront</span><span class="tl-tag">JIRA</span><span class="tl-tag">Event Management</span><span class="tl-tag">Analytics</span><span class="tl-tag">Brand Governance</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div id="skills">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="sh-num">04</span>
+      <h2>SKILLS <span class="accent">&amp; TOOLS</span></h2>
+      <div class="sh-line"></div>
+    </div>
+    <div class="skills-layout">
+      <div class="skill-block reveal">
+        <div class="sb-label">Core Competencies</div>
+        <div class="skill-chips"><span class="chip hi">Program Management</span><span class="chip hi">Strategic Planning</span><span class="chip hi">Change Management</span><span class="chip">Cross-Functional Influence</span><span class="chip hi">Risk Management</span><span class="chip">Stakeholder Management</span><span class="chip hi">Process Optimization</span></div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="sb-label">Events &amp; Logistics</div>
+        <div class="skill-chips"><span class="chip">Event Management</span><span class="chip">Budget Tracking</span><span class="chip">Milestone Mapping</span><span class="chip">Vendor Coordination</span><span class="chip">On-site Support</span></div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="sb-label">Technical Toolkit</div>
+        <div class="skill-chips"><span class="chip hi">Tableau</span><span class="chip hi">Workfront</span><span class="chip hi">JIRA</span><span class="chip">SharePoint</span><span class="chip">Smartsheet</span><span class="chip">Miro</span><span class="chip">Confluence</span></div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="sb-label">Innovation &amp; Languages</div>
+        <div class="skill-chips"><span class="chip hi">Generative AI</span><span class="chip">Automation Tools</span><span class="chip">Native Spanish</span><span class="chip">Professional English</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<div id="education">
+  <div class="section">
+    <div class="section-header reveal">
+      <span class="sh-num">05</span>
+      <h2>EDUCATION <span class="accent">&amp; CERTS</span></h2>
+      <div class="sh-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal"><div class="edu-type">⬡ Certification</div><div class="edu-degree">Lean Six Sigma Black Belt</div><div class="edu-inst">Six Sigma Academy Amsterdam</div></div>
+      <div class="edu-card reveal"><div class="edu-type">⬡ Professional Certificate</div><div class="edu-degree">Google Project Management</div><div class="edu-inst">Google</div></div>
+      <div class="edu-card reveal"><div class="edu-type">⬡ Certification</div><div class="edu-degree">Design Thinking Certification</div><div class="edu-inst">INCAE Business School</div></div>
+      <div class="edu-card reveal"><div class="edu-type">⬡ Bachelor of Arts</div><div class="edu-degree">Advertising Design &amp; Media Production</div><div class="edu-inst">Universidad Americana</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-id"><span>EDGAR BOLAÑOS</span> · Program Leadership · <span>2026</span></div>
+  <div class="footer-links">
+    <a href="mailto:edgarbolan@gmail.com">Email</a>
+    <a href="tel:+50688380582">Phone</a>
+    <a href="https://linkedin.com/in/edgarbolan/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" onclick="openModal();return false">Download CV</a>
+  </div>
+</footer>
+
+<!-- DOWNLOAD MODAL -->
+<div id="dl-modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">[ ESC / CLOSE ]</button>
+    <div class="modal-title">DOWNLOAD <span style="color:var(--teal)">CV</span></div>
+    <div class="modal-sub">// Generating PDF resume from current data</div>
+    <div id="dl-progress"><div id="dl-fill"></div></div>
+    <div id="dl-status"></div>
+    <br>
+    <button class="btn-download" id="dl-btn" onclick="generatePDF()" style="width:100%;justify-content:center;padding:.8rem">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+      Generate &amp; Download PDF
+    </button>
+  </div>
+</div>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
+  setTimeout(()=>{ ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px'; });
+  el.addEventListener('mouseleave',()=>{ cur.style.width='8px';cur.style.height='8px';ring.style.width='32px';ring.style.height='32px'; });
+});
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>{
+        e.target.classList.add('in');
+        e.target.querySelectorAll('.comp-fill').forEach(b=>b.style.width=b.dataset.w+'%');
+        e.target.querySelectorAll('.tl-gantt-fill').forEach(b=>b.style.width=b.dataset.w+'%');
+      }, i*70);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.querySelectorAll('.pc-bar').forEach(b=>b.style.width=b.dataset.width+'%'), 600);
+});
+
+// ACTIVE NAV
+const secs = document.querySelectorAll('[id]'), links = document.querySelectorAll('.topbar-nav a');
+window.addEventListener('scroll',()=>{
+  let c='';
+  secs.forEach(s=>{ if(window.scrollY>=s.offsetTop-120) c=s.id; });
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));
+},{passive:true});
+
+// MODAL
+function openModal(){ document.getElementById('dl-modal').classList.add('open'); }
+function closeModal(){
+  document.getElementById('dl-modal').classList.remove('open');
+  document.getElementById('dl-progress').style.display='none';
+  document.getElementById('dl-fill').style.width='0';
+  document.getElementById('dl-status').textContent='';
+  const b=document.getElementById('dl-btn');
+  b.disabled=false; b.style.background='';
+  b.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg> Generate &amp; Download PDF';
+}
+document.getElementById('dl-modal').addEventListener('click',e=>{ if(e.target===document.getElementById('dl-modal')) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// PDF
+async function generatePDF(){
+  const btn=document.getElementById('dl-btn'), prog=document.getElementById('dl-progress'),
+        fill=document.getElementById('dl-fill'), status=document.getElementById('dl-status');
+  btn.disabled=true; prog.style.display='block';
+  const steps=[[10,'Initializing document...'],[25,'Building header & profile...'],[45,'Writing experience timeline...'],[65,'Adding skills & achievements...'],[80,'Rendering education & certs...'],[95,'Finalizing PDF...'],[100,'Download ready!']];
+  for(const [p,m] of steps){ fill.style.width=p+'%'; status.textContent='// '+m; await new Promise(r=>setTimeout(r,320)); }
+  try{
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:'pt',format:'letter'});
+    const W=612,H=792;
+    const C={ navy:[8,14,28], teal:[0,212,200], text:[226,232,240], muted:[100,116,139], amber:[245,158,11], border:[30,48,84], panel:[17,29,53] };
+    let y=0;
+
+    // BG page 1
+    doc.setFillColor(...C.navy); doc.rect(0,0,W,H,'F');
+
+    // Header
+    doc.setFillColor(...C.teal); doc.rect(0,0,W,3,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(34); doc.setTextColor(...C.teal);
+    doc.text('EDGAR',36,46);
+    doc.setTextColor(...C.text); doc.text('BOLAÑOS',36,77);
+    doc.setFont('courier','normal'); doc.setFontSize(8); doc.setTextColor(...C.muted);
+    doc.text('SENIOR PROGRAM MANAGER  ·  CREATIVE OPERATIONS  ·  QUALITY GOVERNANCE',36,93);
+    doc.setFillColor(...C.panel); doc.rect(0,103,W,1,'F');
+    ['edgarbolan@gmail.com','+506 8838 0582','linkedin.com/in/edgarbolan'].forEach((c,i)=>doc.text(c,W-36,43+i*14,{align:'right'}));
+    y=122;
+
+    const secTitle=(t)=>{
+      doc.setFillColor(...C.panel); doc.rect(0,y-12,W,20,'F');
+      doc.setFillColor(...C.teal); doc.rect(0,y-12,3,20,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...C.teal);
+      doc.text(t.toUpperCase(),16,y+2); y+=18;
+    };
+    const bul=(t)=>{
+      doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...C.muted);
+      doc.text('▸',36,y);
+      doc.setTextColor(180,190,210);
+      const lines=doc.splitTextToSize(t,W-88); doc.text(lines,48,y);
+      y+=lines.length*10+2;
+    };
+    const newPage=()=>{ doc.addPage(); doc.setFillColor(...C.navy); doc.rect(0,0,W,H,'F'); y=36; };
+    const chk=(n=60)=>{ if(y+n>H-30) newPage(); };
+
+    // PROFILE
+    secTitle('Profile Summary'); y+=4;
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(180,190,210);
+    const profLines=doc.splitTextToSize('Strategic Program Leader with 7+ years driving creative business transformation and executing high-impact global multimedia programs. Expert in orchestrating creative workflows, storyboarding alignment, and operational governance. Proven track record managing multi-phased project plans for $60 Billion brands, ensuring brand consistency and flawless execution of visual pursuit messaging.',W-72);
+    doc.text(profLines,36,y); y+=profLines.length*11+10;
+    const kpis=[['7+','Yrs Experience'],['$60B','Brand Programs'],['3','Certifications']];
+    kpis.forEach(([v,l],i)=>{
+      const x=36+i*100;
+      doc.setFillColor(...C.panel); doc.rect(x,y,90,30,'F');
+      doc.setFillColor(...C.teal); doc.rect(x,y,90,2,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...C.teal);
+      doc.text(v,x+8,y+15);
+      doc.setFont('courier','normal'); doc.setFontSize(7); doc.setTextColor(...C.muted);
+      doc.text(l.toUpperCase(),x+8,y+25);
+    }); y+=44;
+
+    // EXPERIENCE
+    chk(80); secTitle('Work Experience'); y+=4;
+    const jobs=[
+      {co:'AKAMAI',role:'Senior Program Manager — Strategic Programs & Operations',period:'05/2025 – Present',buls:['Lead concurrent, complex cross-functional projects ensuring rigorous organizational planning and execution.','Drive strategic process transformations enabling organizations to meet critical operational goals.','Manage risks, dependencies, and issues across multi-phased program plans for flawless delivery.','Execute comprehensive change management plans ensuring high stakeholder engagement.']},
+      {co:'CRITICAL MASS',role:'Quality Control Director',period:'01/2024 – Present',buls:['Spearheaded scalable workflows and automation strategies to enhance accuracy across global digital campaigns.','Oversee Digital Asset Management (DAM) operations, ensuring protection of all program-related assets.','Act as operational expert ensuring all checks and balances are met to enhance partner experience.']},
+      {co:'VMWARE',role:'Brand Engagement & Event Manager & Program Manager',period:'09/2018 – 12/2023',buls:["Served as Program and Engagement Manager for VMware's flagship global events (VMworld & Explore).",'Provided brand protection and content guidelines to ensure global consistency and governance compliance.','Assessed program effectiveness through data reporting, recommending resource optimizations.','Proficiently utilized Workfront and JIRA to track project milestones and asset delivery.','Served as Web and Content Expert for HR Centers of Excellence managing digital content strategies.']},
+    ];
+    jobs.forEach(j=>{
+      chk(80);
+      doc.setFillColor(...C.panel); doc.rect(0,y-4,W,18,'F');
+      doc.setFillColor(...C.teal); doc.rect(0,y-4,2,18,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...C.teal);
+      doc.text(j.co,14,y+7);
+      const coW=doc.getTextWidth(j.co)+10;
+      doc.setFontSize(8.5); doc.setTextColor(...C.text);
+      doc.text(j.role,14+coW,y+7);
+      doc.setFont('courier','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
+      doc.text(j.period,W-36,y+7,{align:'right'});
+      y+=22; j.buls.forEach(b=>{chk(18);bul(b);}); y+=6;
+    });
+
+    // SKILLS
+    chk(80); secTitle('Skills & Tools'); y+=4;
+    const skillSets=[
+      {l:'Core Competencies',items:['Program Management','Strategic Planning','Change Management','Risk Management','Process Optimization','Stakeholder Management','Cross-Functional Influence']},
+      {l:'Technical Toolkit',items:['Tableau','Workfront','JIRA','SharePoint','Smartsheet','Miro','Confluence']},
+      {l:'Events & Logistics',items:['Event Management','Budget Tracking','Milestone Mapping','Vendor Coordination','On-site Support']},
+      {l:'Innovation',items:['Generative AI','Automation Tools','Native Spanish','Professional English']},
+    ];
+    skillSets.forEach(ss=>{
+      chk(36);
+      doc.setFont('courier','bold'); doc.setFontSize(7.5); doc.setTextColor(...C.teal);
+      doc.text('// '+ss.l.toUpperCase(),36,y); y+=10;
+      let cx=36;
+      ss.items.forEach(item=>{
+        const tw=doc.getTextWidth(item)+12;
+        if(cx+tw>W-36){cx=36;y+=14;}
+        doc.setFillColor(...C.panel); doc.roundedRect(cx,y-9,tw,12,2,2,'F');
+        doc.setDrawColor(...C.border); doc.roundedRect(cx,y-9,tw,12,2,2,'S');
+        doc.setFont('courier','normal'); doc.setFontSize(7); doc.setTextColor(...C.text);
+        doc.text(item,cx+6,y); cx+=tw+5;
+      }); y+=18;
+    });
+
+    // EDUCATION
+    chk(90); secTitle('Education & Certifications'); y+=4;
+    const edu=[
+      {t:'CERTIFICATION',d:'Lean Six Sigma Black Belt',i:'Six Sigma Academy Amsterdam'},
+      {t:'PROFESSIONAL CERTIFICATE',d:'Google Project Management',i:'Google'},
+      {t:'CERTIFICATION',d:'Design Thinking Certification',i:'INCAE Business School'},
+      {t:'BACHELOR OF ARTS',d:'Advertising Design & Media Production',i:'Universidad Americana'},
+    ];
+    edu.forEach((e,idx)=>{
+      const col=idx%2, ex=col===0?36:W/2+10;
+      if(col===0&&idx>0) y+=4;
+      chk(44);
+      doc.setFillColor(...C.panel); doc.rect(ex,y-4,W/2-46,40,'F');
+      doc.setFillColor(...C.amber); doc.rect(ex,y-4,2,40,'F');
+      doc.setFont('courier','normal'); doc.setFontSize(7); doc.setTextColor(...C.amber);
+      doc.text(e.t,ex+8,y+5);
+      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...C.text);
+      doc.text(e.d,ex+8,y+17);
+      doc.setFont('courier','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
+      doc.text(e.i,ex+8,y+28);
+      if(col===1) y+=44;
+    }); y+=44;
+
+    doc.save('Edgar_Bolanos_Resume_2026.pdf');
+    status.textContent='// Download complete!';
+    btn.innerHTML='✓ Downloaded!'; btn.style.background='var(--green)';
+    setTimeout(closeModal,1800);
+  } catch(err){ status.textContent='// Error: '+err.message; btn.disabled=false; }
+}
+</script>
+</body>
+</html>
