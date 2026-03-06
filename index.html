@@ -245,10 +245,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.2rem 3r
       <div class="prog-meta"><span>05/2025 – Present</span><span>72%</span></div>
     </div>
     <div class="prog-card">
-      <div class="prog-top"><div class="prog-name">Quality Control &amp; Governance</div><span class="p-badge b-conc">◈ Concurrent</span></div>
+      <div class="prog-top"><div class="prog-name">Quality Control &amp; Governance</div><span class="p-badge b-done">✓ Delivered</span></div>
       <div class="prog-co">Critical Mass · QC Director</div>
-      <div class="prog-track"><div class="prog-fill" data-w="88"></div></div>
-      <div class="prog-meta"><span>01/2024 – Present</span><span>88%</span></div>
+      <div class="prog-track"><div class="prog-fill" data-w="100"></div></div>
+      <div class="prog-meta"><span>01/2024 – 05/2025</span><span>100%</span></div>
     </div>
     <div class="prog-card">
       <div class="prog-top"><div class="prog-name">VMworld &amp; Explore Global Events</div><span class="p-badge b-done">✓ Delivered</span></div>
@@ -353,8 +353,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.2rem 3r
       <div class="tl-item reveal">
         <div class="tl-left">
           <div class="tl-co">Critical Mass</div>
-          <div class="tl-period">01/2024 — Present<br>Remote</div>
-          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="88"></div><div class="tl-dot"></div></div>
+          <div class="tl-period">01/2024 — 05/2025<br>Remote</div>
+          <div class="tl-gantt"><div class="tl-gantt-fill" data-w="100"></div></div>
         </div>
         <div>
           <div class="tl-role">Quality Control Director</div>
@@ -513,410 +513,322 @@ async function generatePDF() {
   const fill   = document.getElementById('dl-fill');
   const status = document.getElementById('dl-status');
   btn.disabled = true; prog.style.display = 'block';
-  const steps = [[15,'Setting up document…'],[35,'Building header…'],[55,'Writing experience…'],[75,'Skills & education…'],[95,'Finishing touches…'],[100,'Ready!']];
-  for (const [p,m] of steps){ fill.style.width=p+'%'; status.textContent=m; await new Promise(r=>setTimeout(r,280)); }
+  const steps = [[15,'Setting up…'],[40,'Page 1…'],[75,'Page 2…'],[100,'Ready!']];
+  for (const [p,m] of steps){ fill.style.width=p+'%'; status.textContent=m; await new Promise(r=>setTimeout(r,300)); }
 
   try {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit:'pt', format:'letter' });
-    const PW=612, PH=792, ML=52, MR=52;
-    const CW = PW-ML-MR; // 508pt
+    const PW=612, PH=792, ML=48, MR=48;
+    const CW = PW-ML-MR;
 
-    // ── PALETTE — white bg, prints cleanly, ATS-safe ──
-    const WHITE  = [255,255,255];
-    const BLACK  = [15, 20, 30];
-    const BODY   = [50, 60, 75];
+    // Palette
+    const BLACK  = [15,  20,  30];
+    const BODY   = [50,  60,  75];
     const MUTED  = [105,118,138];
-    const ACCENT = [14, 116,144];   // deep teal
-    const ACLT   = [232,246,249];   // very light teal tint — section bands
-    const AMBER  = [140, 95, 18];   // print-safe amber
-    const AMBLT  = [253,246,230];   // light amber tint
+    const ACCENT = [14, 116,144];
+    const ACLT   = [232,246,249];
+    const AMBER  = [140, 95, 18];
     const RULE   = [210,218,228];
     const TAGBG  = [241,245,249];
     const TAGBDR = [196,208,220];
     const HIBG   = [220,242,247];
 
-    let y=0; let pg=1;
-
-    const newPage = () => { doc.addPage(); pg++; y=0; };
-    const chk = (n) => { if(y+n > PH-52) newPage(); };
-
-    // ══════════════════════════════════════
-    // PAGE 1  ——  HEADER BLOCK
-    // ══════════════════════════════════════
-
-    // Left sidebar accent stripe — echoes the site's left-border style
+    // PAGE 1 BACKGROUND DESIGN
     doc.setFillColor(...ACLT);
-    doc.rect(0, 0, 6, PH, 'F');
+    doc.rect(0, 0, 5, PH, 'F');
     doc.setFillColor(...ACCENT);
-    doc.rect(0, 0, 6, 110, 'F');
-
-    // Top teal band (full width)
+    doc.rect(0, 0, 5, 95, 'F');
+    doc.setFillColor(245,250,252);
+    doc.rect(0, 0, PW, 95, 'F');
     doc.setFillColor(...ACCENT);
-    doc.rect(0, 0, PW, 5, 'F');
+    doc.rect(0, 0, PW, 4, 'F');
 
-    // Header background tint
-    doc.setFillColor(245, 250, 252);
-    doc.rect(0, 5, PW, 105, 'F');
+    // Name
+    doc.setFont('helvetica','bold'); doc.setFontSize(26); doc.setTextColor(...BLACK);
+    doc.text('Edgar Bolanos', ML+8, 38);
 
-    // Name — large, bold
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(30);
-    doc.setTextColor(...BLACK);
-    doc.text('Edgar Bolanos', ML+6, 44);
+    // Title
+    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...ACCENT);
+    doc.text('Senior Program Manager  |  Creative Operations  |  Digital Asset Management', ML+8, 53);
 
-    // Title in teal
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(10.5);
-    doc.setTextColor(...ACCENT);
-    doc.text('Senior Program Manager  |  Creative Operations  |  Digital Asset Management', ML+6, 60);
+    // Contact
+    doc.setFontSize(8); doc.setTextColor(...MUTED);
+    doc.text('edgarbolan@gmail.com  |  +506 8838 0582  |  linkedin.com/in/edgarbolan  |  San Jose, CR', ML+8, 66);
 
-    // Contact line
-    doc.setFontSize(8.5);
-    doc.setTextColor(...MUTED);
-    doc.text('edgarbolan@gmail.com   |   +506 8838 0582   |   linkedin.com/in/edgarbolan   |   San Jose, CR', ML+6, 75);
+    // Rule
+    doc.setDrawColor(...RULE); doc.setLineWidth(0.5);
+    doc.line(ML+8, 72, PW-MR, 72);
 
-    // Divider rule
-    doc.setDrawColor(...RULE);
-    doc.setLineWidth(0.6);
-    doc.line(ML+6, 83, PW-MR, 83);
-
-    // KPI badges — 3 stat pills echoing the site's stat cards
-    const kpis = [['7+','Yrs Experience'],['$60B','Brand Scale'],['3','Certifications']];
-    kpis.forEach(([v,l],i) => {
-      const kx = ML+6 + i*118;
-      doc.setFillColor(...ACLT);
-      doc.setDrawColor(...ACCENT);
-      doc.setLineWidth(0.5);
-      doc.roundedRect(kx, 88, 110, 22, 3, 3, 'FD');
-      // top teal micro-bar on each pill
-      doc.setFillColor(...ACCENT);
-      doc.rect(kx, 88, 110, 2, 'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...ACCENT);
-      doc.text(v, kx+7, 101);
-      const vw = doc.getTextWidth(v);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...MUTED);
-      doc.text(l.toUpperCase(), kx+vw+10, 101);
+    // KPI pills
+    [['7+','Yrs Exp'],['$60B','Brand Scale'],['3','Certs']].forEach(([v,l],i) => {
+      const kx = ML+8 + i*108;
+      doc.setFillColor(...ACLT); doc.setDrawColor(...ACCENT); doc.setLineWidth(0.5);
+      doc.roundedRect(kx, 76, 100, 16, 2, 2, 'FD');
+      doc.setFillColor(...ACCENT); doc.rect(kx, 76, 100, 2, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...ACCENT);
+      doc.text(v, kx+5, 87);
+      doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(...MUTED);
+      doc.text(l.toUpperCase(), kx+5+doc.getTextWidth(v)+4, 87);
     });
 
-    y = 124;
+    let y = 105;
 
-    // ══════════════════════════════════════
     // HELPERS
-    // ══════════════════════════════════════
-
-    // Section heading with tinted background band + left accent bar
     const secHead = (title) => {
-      chk(30);
       y += 6;
       doc.setFillColor(...ACLT);
-      doc.rect(ML-2, y-11, CW+4, 18, 'F');
+      doc.rect(ML, y-9, CW, 15, 'F');
       doc.setFillColor(...ACCENT);
-      doc.rect(ML-2, y-11, 3, 18, 'F');
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(9);
-      doc.setTextColor(...ACCENT);
-      doc.text(title.toUpperCase(), ML+7, y+1);
-      y += 14;
+      doc.rect(ML, y-9, 3, 15, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...ACCENT);
+      doc.text(title.toUpperCase(), ML+9, y+1);
+      y += 11;
     };
 
-    // Body text
-    const bodyTxt = (text, opts={}) => {
-      const { indent=ML+6, maxW=CW-6, size=9, color=BODY, lh=1.45 } = opts;
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(size); doc.setTextColor(...color);
-      const lines = doc.splitTextToSize(text, maxW);
-      doc.text(lines, indent, y);
-      y += lines.length * size * lh + 1;
+    const bodyTxt = (text) => {
+      doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...BODY);
+      const lines = doc.splitTextToSize(text, CW-10);
+      doc.text(lines, ML+8, y);
+      y += lines.length * 12;
     };
 
-    // Bullet — teal filled square
-    const bul = (text, indent=ML+6, maxW=CW-20) => {
-      chk(15);
+    const bul = (text) => {
       doc.setFillColor(...ACCENT);
-      doc.rect(indent, y-5.5, 3.5, 3.5, 'F');
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(9); doc.setTextColor(...BODY);
-      const lines = doc.splitTextToSize(text, maxW);
-      doc.text(lines, indent+9, y);
-      y += lines.length*12 + 2;
+      doc.rect(ML+8, y-4.5, 3, 3, 'F');
+      doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...BODY);
+      const lines = doc.splitTextToSize(text, CW-22);
+      doc.text(lines, ML+16, y);
+      y += lines.length * 11.5;
     };
 
-    // Skill pill
-    const pill = (text, x, isHi=false) => {
-      doc.setFontSize(7.5);
-      const tw = doc.getTextWidth(text)+12;
+    const pill = (text, x, yy, isHi) => {
+      doc.setFontSize(7);
+      const tw = doc.getTextWidth(text)+10;
       doc.setFillColor(...(isHi ? HIBG : TAGBG));
       doc.setDrawColor(...(isHi ? ACCENT : TAGBDR));
-      doc.setLineWidth(isHi ? 0.6 : 0.4);
-      doc.roundedRect(x, y-9, tw, 12, 2, 2, 'FD');
-      doc.setFont('helvetica', isHi?'bold':'normal');
+      doc.setLineWidth(isHi ? 0.6 : 0.35);
+      doc.roundedRect(x, yy-8, tw, 11, 2, 2, 'FD');
+      doc.setFont('helvetica', isHi ? 'bold' : 'normal');
       doc.setTextColor(...(isHi ? ACCENT : BODY));
-      doc.text(text, x+6, y);
-      return tw+5;
+      doc.text(text, x+5, yy);
+      return tw+4;
     };
 
-    const pillRow = (items, hiItems=[]) => {
-      chk(18); y+=2;
-      let x=ML+6;
+    const pillBlock = (items, hiItems) => {
+      y += 3;
+      let x = ML+8;
       items.forEach(item => {
-        doc.setFontSize(7.5);
-        const tw = doc.getTextWidth(item)+12;
-        if(x+tw > PW-MR){ x=ML+6; y+=15; chk(15); }
-        x += pill(item, x, hiItems.includes(item));
+        doc.setFontSize(7);
+        const tw = doc.getTextWidth(item)+10;
+        if (x+tw > PW-MR) { x=ML+8; y+=13; }
+        x += pill(item, x, y, hiItems.includes(item));
       });
-      y+=14;
+      y += 12;
     };
 
-    // ══════════════════════════════════════
-    // PROFESSIONAL SUMMARY
-    // ══════════════════════════════════════
-    secHead('Professional Summary');
-    y += 4;
-    bodyTxt('Senior Program Manager and Digital Producer with 7+ years of experience leading end-to-end Creative Operations, Digital Asset Management, and high-impact global programs for $60B brands including Google, Apple, AT&T, and VMware. Expert in orchestrating complex digital ecosystems, brand governance, and content lifecycle management across enterprise-scale environments.');
-    y += 4;
-    bodyTxt('Lean Six Sigma Black Belt and Design Thinking practitioner leveraging Generative AI and workflow automation to drive process excellence, eliminate operational waste, and ensure seamless change management across global cross-functional teams.');
-    y += 10;
+    const addFooter = (pg, label) => {
+      doc.setPage(pg);
+      const fy = PH-20;
+      doc.setFillColor(...ACLT); doc.rect(0, fy-12, PW, 32, 'F');
+      doc.setFillColor(...ACCENT); doc.rect(0, fy-12, 5, 32, 'F');
+      doc.setDrawColor(...RULE); doc.setLineWidth(0.4);
+      doc.line(ML+8, fy-8, PW-MR, fy-8);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...MUTED);
+      doc.text('Edgar Bolanos  |  edgarbolan@gmail.com  |  +506 8838 0582  |  linkedin.com/in/edgarbolan', ML+8, fy+4);
+      doc.text(label, PW-MR, fy+4, {align:'right'});
+    };
 
-    // ══════════════════════════════════════
-    // CORE COMPETENCIES
-    // ══════════════════════════════════════
-    secHead('Core Competencies');
-    y += 4;
-    pillRow([
-      'Program Governance','Strategic Planning','Change Management','Risk Mitigation',
-      'Stakeholder Advocacy','Budget Oversight','Digital Asset Management','Creative Workflow Optimization',
-      'QA Strategy','Agile Scrum','Kanban','SDLC','Lean Six Sigma BB','Design Thinking',
-      'Generative AI','Workfront','JIRA','Smartsheet','Confluence','Miro','SharePoint'
-    ], ['Program Governance','Digital Asset Management','Lean Six Sigma BB','Generative AI','Change Management']);
+    // PROFESSIONAL SUMMARY
+    secHead('Professional Summary');
+    y += 3;
+    bodyTxt('Senior Program Manager and Digital Producer with 7+ years leading end-to-end Creative Operations, Digital Asset Management, and high-impact global programs for $60B brands including Google, Apple, AT&T, and VMware. Lean Six Sigma Black Belt and Design Thinking practitioner leveraging Generative AI and workflow automation to drive process excellence and seamless change management across enterprise-scale environments.');
     y += 6;
 
-    // ══════════════════════════════════════
+    // CORE COMPETENCIES
+    secHead('Core Competencies');
+    y += 2;
+    pillBlock([
+      'Program Governance','Strategic Planning','Change Management','Risk Mitigation',
+      'Stakeholder Advocacy','Budget Oversight','Digital Asset Management','Creative Workflow Opt.',
+      'QA Strategy','Agile / Scrum','Kanban','SDLC','Lean Six Sigma BB','Design Thinking',
+      'Generative AI','Workfront','JIRA','Smartsheet','Confluence','SharePoint'
+    ], ['Program Governance','Digital Asset Management','Lean Six Sigma BB','Generative AI','Change Management']);
+    y += 4;
+
     // PROFESSIONAL EXPERIENCE
-    // ══════════════════════════════════════
     secHead('Professional Experience');
 
     const jobs = [
       {
-        co:'Akamai', role:'Senior Program Manager — Strategic Programs & Operations',
-        period:'May 2025 – Present', loc:'San Jose, CR',
+        co:'Akamai',
+        role:'Senior Program Manager — Strategic Programs & Operations',
+        period:'May 2025 – Present  |  San Jose, CR',
         bullets:[
-          'Lead concurrent, high-priority cross-functional programs, establishing rigorous organizational planning frameworks and execution standards for global initiatives.',
-          'Drive strategic process transformations and business programs, identifying bottlenecks and implementing scalable solutions to meet critical corporate goals.',
-          'Manage complex dependencies and risks across multi-phased program plans, ensuring 100% on-time delivery of enterprise-level milestones.',
-          'Design and execute comprehensive change management plans to drive stakeholder engagement and seamless adoption of new operational systems.',
+          'Lead concurrent cross-functional programs, establishing rigorous planning frameworks and execution standards for global initiatives.',
+          'Drive strategic process transformations, identifying bottlenecks and implementing scalable solutions to meet critical corporate goals.',
+          'Manage complex dependencies and risks across multi-phased program plans ensuring 100% on-time delivery of enterprise milestones.',
+          'Design and execute change management plans driving stakeholder engagement and seamless adoption of new operational systems.',
         ]
       },
       {
-        co:'Critical Mass', role:'Quality Control Director',
-        period:'January 2024 – Present', loc:'Remote',
+        co:'Critical Mass',
+        role:'Quality Control Director',
+        period:'January 2024 – May 2025  |  Remote',
         bullets:[
-          'Supervise flawless execution and validation of creative assets for high-profile global clients including Google, Apple, and AT&T, ensuring peak operational accuracy.',
-          'Spearhead scalable workflows and automation strategies, reducing manual errors and increasing production speed for global digital campaigns.',
-          'Oversee global Digital Asset Management (DAM) operations, ensuring security, organization, and efficient retrieval of all creative and program-related assets.',
-          'Serve as primary operational expert ensuring all creative outputs meet rigorous quality standards to enhance the partner experience.',
+          'Supervised flawless execution and validation of creative assets for global clients including Google, Apple, and AT&T.',
+          'Spearheaded scalable workflows and automation strategies, reducing manual errors and increasing production speed.',
+          'Oversaw global DAM operations ensuring security, organization, and efficient retrieval of all creative assets.',
+          'Served as primary operational expert ensuring all creative outputs met rigorous quality standards.',
         ]
       },
       {
-        co:'VMware', role:'Brand Engagement, Event Manager & Program Manager',
-        period:'September 2018 – December 2023', loc:'5 years 3 months',
+        co:'VMware',
+        role:'Brand Engagement, Event Manager & Program Manager',
+        period:'September 2018 – December 2023  |  5 years 3 months',
         bullets:[
-          'Directed program management for flagship global events (VMworld and Explore), managing multi-million dollar budgets, intricate requirements, and cross-functional dependencies.',
-          'Acted as Web and Content Expert for HR Centers of Excellence, managing digital projects, web content strategies, and cross-platform storytelling.',
-          'Enforced brand protection and content guidelines across all global outputs, ensuring 100% brand consistency for a $60 Billion-valued brand.',
-          'Managed end-to-end project lifecycles using Workfront and JIRA, tracking asset delivery and milestone achievement for global creative teams.',
-          'Produced reports, scorecards, and analytics for stakeholder groups to drive data-backed improvements and optimize team performance.',
+          'Directed program management for VMworld and Explore events managing multi-million dollar budgets and cross-functional dependencies.',
+          'Served as Web and Content Expert for HR Centers of Excellence, managing digital projects and cross-platform content strategies.',
+          'Enforced brand protection guidelines across all global outputs ensuring 100% consistency for a $60 Billion-valued brand.',
+          'Managed end-to-end project lifecycles via Workfront and JIRA; produced scorecards and analytics for stakeholder groups.',
         ]
       }
     ];
 
-    jobs.forEach((j,ji) => {
-      chk(70);
-      y += ji===0 ? 6 : 4;
-      // Job card: light background, left accent bar
-      const cardStartY = y-4;
-      // Company + period row
-      doc.setFont('helvetica','bold'); doc.setFontSize(10.5); doc.setTextColor(...BLACK);
-      doc.text(j.co, ML+6, y+8);
-      doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...MUTED);
-      doc.text(j.period+' | '+j.loc, PW-MR, y+8, {align:'right'});
-      y += 14;
-      // Role title
-      doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...ACCENT);
-      doc.text(j.role, ML+6, y);
-      y += 6;
-      // Thin teal rule under role
-      doc.setDrawColor(...RULE); doc.setLineWidth(0.4);
-      doc.line(ML+6, y, PW-MR, y);
-      y += 8;
-      // Bullets
-      j.bullets.forEach(b => bul(b));
+    jobs.forEach((j, ji) => {
+      y += ji === 0 ? 5 : 8;
+      const cardStart = y - 3;
+      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...BLACK);
+      doc.text(j.co, ML+8, y+6);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED);
+      doc.text(j.period, PW-MR, y+6, {align:'right'});
+      y += 13;
+      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...ACCENT);
+      doc.text(j.role, ML+8, y);
       y += 4;
-      // Left accent bar spanning the whole card
+      doc.setDrawColor(...RULE); doc.setLineWidth(0.35);
+      doc.line(ML+8, y, PW-MR, y);
+      y += 7;
+      j.bullets.forEach(b => bul(b));
       doc.setFillColor(...ACCENT);
-      doc.rect(ML-2, cardStartY, 3, y-cardStartY, 'F');
+      doc.rect(ML, cardStart, 3, y-cardStart, 'F');
     });
 
-    // ══════════════════════════════════════
     // PAGE 2
-    // ══════════════════════════════════════
-    newPage();
+    doc.addPage();
 
-    // Page 2 left sidebar stripe
-    doc.setFillColor(...ACLT);
-    doc.rect(0, 0, 6, PH, 'F');
-    doc.setFillColor(...ACCENT);
-    doc.rect(0, 0, 6, 36, 'F');
+    // Page 2 sidebar + header
+    doc.setFillColor(...ACLT); doc.rect(0, 0, 5, PH, 'F');
+    doc.setFillColor(...ACCENT); doc.rect(0, 0, 5, 32, 'F');
+    doc.setFillColor(245,250,252); doc.rect(0, 0, PW, 32, 'F');
+    doc.setFillColor(...ACCENT); doc.rect(0, 0, PW, 3, 'F');
 
-    // Page 2 top band
-    doc.setFillColor(245,250,252);
-    doc.rect(0, 0, PW, 36, 'F');
-    doc.setFillColor(...ACCENT);
-    doc.rect(0, 0, PW, 3, 'F');
-
-    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...BLACK);
-    doc.text('Edgar Bolanos', ML+6, 22);
+    doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...BLACK);
+    doc.text('Edgar Bolanos', ML+8, 20);
     const nw = doc.getTextWidth('Edgar Bolanos');
-    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...MUTED);
-    doc.text('Senior Program Manager  |  Creative Operations  |  DAM', ML+6+nw+8, 22);
-    doc.setTextColor(...MUTED); doc.text('Page 2 of 2', PW-MR, 22, {align:'right'});
-    doc.setDrawColor(...RULE); doc.setLineWidth(0.5);
-    doc.line(ML+6, 30, PW-MR, 30);
-    y = 46;
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
+    doc.text('Senior Program Manager  |  Creative Operations  |  DAM', ML+8+nw+8, 20);
+    doc.text('Page 2 of 2', PW-MR, 20, {align:'right'});
+    doc.setDrawColor(...RULE); doc.setLineWidth(0.4);
+    doc.line(ML+8, 27, PW-MR, 27);
 
-    // ── TWO-COLUMN LAYOUT ──
-    const c1W = Math.floor(CW*0.56);
-    const GAP  = 22;
-    const c2W  = CW - c1W - GAP;
-    const c2X  = ML + c1W + GAP;
-    const colY = y;
+    y = 40;
 
-    // ── COLUMN 2 DIVIDER (vertical rule) ──
-    // drawn after columns are filled — placeholder for now
+    // Two-column layout
+    const c1W = 288, GAP = 18;
+    const c2W = CW - c1W - GAP;
+    const c2X = ML + c1W + GAP;
+    const colStartY = y;
 
-    // ── LEFT COL: SKILLS ──
     const colHead = (title, xPos, w) => {
-      y += 4;
+      y += 5;
       doc.setFillColor(...ACLT);
-      doc.rect(xPos-2, y-10, w+4, 16, 'F');
+      doc.rect(xPos, y-9, w, 15, 'F');
       doc.setFillColor(...ACCENT);
-      doc.rect(xPos-2, y-10, 3, 16, 'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...ACCENT);
-      doc.text(title.toUpperCase(), xPos+7, y);
-      y += 12;
+      doc.rect(xPos, y-9, 3, 15, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...ACCENT);
+      doc.text(title.toUpperCase(), xPos+8, y+1);
+      y += 11;
     };
 
-    const colPills = (items, xPos, maxW, hiItems=[]) => {
+    const colPills = (items, xPos, maxW, hiItems) => {
       y += 3;
       let x = xPos;
       items.forEach(item => {
-        doc.setFontSize(7.5);
-        const tw = doc.getTextWidth(item)+12;
-        if(x+tw > xPos+maxW){ x=xPos; y+=14; }
-        x += pill(item, x, hiItems.includes(item));
+        doc.setFontSize(7);
+        const tw = doc.getTextWidth(item)+10;
+        if (x+tw > xPos+maxW) { x=xPos; y+=13; }
+        x += pill(item, x, y, hiItems.includes(item));
       });
-      y += 14;
+      y += 13;
     };
 
-    const skillSets = [
-      { label:'Program Leadership',
-        items:['Strategic Planning','Program Governance','Change Management','Risk Mitigation','Stakeholder Advocacy','Budget Oversight','Cross-Functional Influence'],
-        hi:['Program Governance','Change Management'] },
-      { label:'Creative Operations & DAM',
-        items:['Creative Workflow Optimization','Digital Asset Management','Brand Consistency','QA Strategy','Resource Allocation'],
-        hi:['Digital Asset Management','QA Strategy'] },
-      { label:'Web & Digital Production',
-        items:['Agile Scrum','Kanban','SDLC','Workfront','JIRA','Smartsheet','Miro','Confluence','SharePoint','CMS'],
-        hi:['Agile Scrum','Workfront','JIRA'] },
-      { label:'Innovation & Languages',
-        items:['Lean Six Sigma BB','Design Thinking','Generative AI','Automation Tools','Native Spanish','Professional English'],
-        hi:['Lean Six Sigma BB','Generative AI','Design Thinking'] },
-    ];
+    // LEFT COLUMN: SKILLS
+    colHead('Program Leadership', ML+8, c1W-8);
+    colPills(['Strategic Planning','Program Governance','Change Management','Risk Mitigation','Stakeholder Advocacy','Budget Oversight','Cross-Functional'], ML+8, c1W-8, ['Program Governance','Change Management']);
 
-    skillSets.forEach((g,i) => {
-      colHead(g.label, ML+6, c1W-6);
-      colPills(g.items, ML+6, c1W-6, g.hi);
-      if(i < skillSets.length-1) y += 2;
-    });
+    colHead('Creative Operations & DAM', ML+8, c1W-8);
+    colPills(['Creative Workflow Optimization','Digital Asset Management','Brand Consistency','QA Strategy','Resource Allocation'], ML+8, c1W-8, ['Digital Asset Management','QA Strategy']);
+
+    colHead('Web & Digital Production', ML+8, c1W-8);
+    colPills(['Agile Scrum','Kanban','SDLC','Workfront','JIRA','Smartsheet','Miro','Confluence','SharePoint'], ML+8, c1W-8, ['Agile Scrum','Workfront','JIRA']);
+
+    colHead('Innovation & Languages', ML+8, c1W-8);
+    colPills(['Lean Six Sigma BB','Design Thinking','Generative AI','Automation Tools','Native Spanish','English'], ML+8, c1W-8, ['Lean Six Sigma BB','Generative AI','Design Thinking']);
 
     const col1EndY = y;
 
-    // ── RIGHT COL: EDUCATION + CLIENTS ──
-    y = colY;
+    // RIGHT COLUMN: EDUCATION + CLIENTS
+    y = colStartY;
 
     colHead('Education & Certifications', c2X, c2W);
     y += 2;
 
-    const eduItems = [
-      { type:'Certification',       deg:'Lean Six Sigma Black Belt',           inst:'Six Sigma Academy Amsterdam' },
-      { type:'Professional Cert.',  deg:'Google Project Management',           inst:'Google' },
-      { type:'Certification',       deg:'Design Thinking Certification',       inst:'INCAE Business School' },
-      { type:'Bachelor of Arts',    deg:'Advertising Design & Media Production', inst:'Universidad Americana' },
-    ];
-
-    eduItems.forEach(e => {
-      const cardH = 38;
-      // Card background
-      doc.setFillColor(253,251,245);
-      doc.setDrawColor(...RULE); doc.setLineWidth(0.4);
-      doc.roundedRect(c2X, y-3, c2W, cardH, 3, 3, 'FD');
-      // Left amber accent bar
-      doc.setFillColor(...AMBER);
-      doc.rect(c2X, y-3, 2.5, cardH, 'F');
-      // Type label
-      doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(...AMBER);
-      doc.text(e.type.toUpperCase(), c2X+8, y+5);
-      // Degree
-      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...BLACK);
-      const dlines = doc.splitTextToSize(e.deg, c2W-14);
-      doc.text(dlines, c2X+8, y+15);
-      // Institution
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED);
-      doc.text(e.inst, c2X+8, y+27);
-      y += cardH + 7;
+    [
+      { type:'Certification',      deg:'Lean Six Sigma Black Belt',             inst:'Six Sigma Academy Amsterdam' },
+      { type:'Professional Cert.', deg:'Google Project Management',             inst:'Google' },
+      { type:'Certification',      deg:'Design Thinking Certification',         inst:'INCAE Business School' },
+      { type:'Bachelor of Arts',   deg:'Advertising Design & Media Production', inst:'Universidad Americana' },
+    ].forEach(e => {
+      const cardH = 34;
+      doc.setFillColor(253,251,245); doc.setDrawColor(...RULE); doc.setLineWidth(0.35);
+      doc.roundedRect(c2X, y-2, c2W, cardH, 2, 2, 'FD');
+      doc.setFillColor(...AMBER); doc.rect(c2X, y-2, 2.5, cardH, 'F');
+      doc.setFont('helvetica','normal'); doc.setFontSize(6); doc.setTextColor(...AMBER);
+      doc.text(e.type.toUpperCase(), c2X+7, y+5);
+      doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...BLACK);
+      const dl = doc.splitTextToSize(e.deg, c2W-12);
+      doc.text(dl, c2X+7, y+14);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...MUTED);
+      doc.text(e.inst, c2X+7, y+25);
+      y += cardH + 5;
     });
 
-    y += 6;
-    colHead('Key Clients & Brands', c2X, c2W);
+    y += 4;
+    colHead('Key Clients', c2X, c2W);
     y += 2;
 
     [['Google',[34,197,94]],['Apple',[100,116,139]],['AT&T',[59,130,246]],['VMware',[14,116,144]]].forEach(([name,dot]) => {
-      doc.setFillColor(...TAGBG); doc.setDrawColor(...TAGBDR); doc.setLineWidth(0.4);
-      doc.roundedRect(c2X, y-7, c2W, 16, 3, 3, 'FD');
-      // Colored dot echoing site's status indicator
-      doc.setFillColor(...dot);
-      doc.circle(c2X+9, y+1, 3, 'F');
+      doc.setFillColor(...TAGBG); doc.setDrawColor(...TAGBDR); doc.setLineWidth(0.35);
+      doc.roundedRect(c2X, y-6, c2W, 15, 2, 2, 'FD');
+      doc.setFillColor(...dot); doc.circle(c2X+8, y+1.5, 2.5, 'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...BLACK);
-      doc.text(name, c2X+17, y+4);
-      y += 21;
+      doc.text(name, c2X+16, y+4);
+      y += 19;
     });
 
-    // Vertical divider between columns
+    // Column divider
     const divX = ML + c1W + Math.floor(GAP/2);
-    doc.setDrawColor(...RULE); doc.setLineWidth(0.5);
-    doc.line(divX, colY-4, divX, Math.max(col1EndY, y));
+    doc.setDrawColor(...RULE); doc.setLineWidth(0.4);
+    doc.line(divX, colStartY, divX, Math.max(col1EndY, y));
 
-    // ── FOOTER BOTH PAGES ──
-    const footY = PH-22;
-    const addFooter = (pg, label) => {
-      doc.setPage(pg);
-      // Footer teal bar
-      doc.setFillColor(...ACLT);
-      doc.rect(0, footY-14, PW, 36, 'F');
-      doc.setFillColor(...ACCENT);
-      doc.rect(0, footY-14, 6, 36, 'F');
-      doc.setDrawColor(...RULE); doc.setLineWidth(0.4);
-      doc.line(ML+6, footY-10, PW-MR, footY-10);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTED);
-      doc.text('Edgar Bolanos  |  edgarbolan@gmail.com  |  +506 8838 0582  |  linkedin.com/in/edgarbolan', ML+6, footY);
-      doc.text(label, PW-MR, footY, {align:'right'});
-    };
+    // Footers
     addFooter(1,'Page 1 of 2');
     addFooter(2,'Page 2 of 2');
 
     doc.save('Edgar_Bolanos_Resume_2026.pdf');
     status.textContent = 'Download complete!';
-    btn.innerHTML = '✓ Downloaded successfully';
+    btn.innerHTML = '&#x2713; Downloaded successfully';
     btn.style.background = '#4ade80'; btn.style.color = '#052e16';
     setTimeout(closeModal, 2200);
   } catch(err) {
