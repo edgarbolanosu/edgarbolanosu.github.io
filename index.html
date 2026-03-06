@@ -224,7 +224,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.2rem 3r
   <div class="hero-left">
     <h1 class="hero-name">Edgar<br><span class="hl">Bolaños</span></h1>
     <p class="hero-title"><strong>Senior Program Manager</strong> · Creative Operations · Digital Asset Management</p>
-    <p class="hero-desc">Senior Program Manager and Digital Producer with <strong>7+ years</strong> leading end-to-end Creative Operations, Digital Asset Management, and high-impact global programs for $60B brands including <strong>Google, Apple, AT&amp;T &amp; VMware</strong>. Lean Six Sigma Black Belt and Design Thinking practitioner leveraging <strong>Generative AI</strong> and workflow automation to drive process excellence and seamless change management across enterprise-scale initiatives.</p>
+    <p class="hero-desc">Senior Program Manager and Digital Producer with <strong>7+ years</strong> leading end-to-end Creative Operations, Digital Asset Management, and high-impact global programs for $60B brands including <strong>Google, Apple, AT&amp;T &amp; VMware</strong>. Proven leader who built and managed a <strong>team of 20+ Quality Control specialists</strong>. Lean Six Sigma Black Belt and Design Thinking practitioner leveraging <strong>Generative AI</strong> and workflow automation to drive process excellence and seamless change management across enterprise-scale initiatives.</p>
     <div class="hero-contacts">
       <a href="mailto:edgarbolan&#64;gmail.com"><span class="c-lbl">Email</span>edgarbolan&#64;gmail.com</a>
       <a href="tel:+50688380582"><span class="c-lbl">Phone</span>+506 8838 0582</a>
@@ -279,7 +279,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.2rem 3r
     <div class="prof-grid">
       <div class="prof-text reveal">
         <p>Strategic Senior Program Leader and Digital Producer with over <strong>7+ years of experience</strong> spearheading creative business transformations and executing high-impact global multimedia programs. Expert in orchestrating end-to-end <strong>Creative Operations</strong> — from storyboarding and brand governance to the deployment of complex digital ecosystems for $60 Billion brands.</p>
-        <p>Proven track record of managing high-profile visual pursuit messaging and asset validation for global market leaders including <strong>Google, Apple, AT&amp;T, and VMware</strong>. Adept at leading Senior Web Production initiatives utilizing <strong>SDLC methodologies and Agile frameworks</strong> to manage content lifecycles and large-scale digital asset migrations.</p>
+        <p>Proven track record of managing high-profile visual pursuit messaging and asset validation for global market leaders including <strong>Google, Apple, AT&amp;T, and VMware</strong>. Hired and managed a <strong>team of 20+ Quality Control specialists</strong> at Critical Mass, driving operational excellence across global digital campaign pipelines. Adept at leading Senior Web Production initiatives utilizing <strong>SDLC methodologies and Agile frameworks</strong> to manage content lifecycles and large-scale digital asset migrations.</p>
         <p>Expert in <strong>Digital Asset Management (DAM)</strong> and workflow automation, leveraging Generative AI to drive efficiency. A <strong>Lean Six Sigma Black Belt</strong> professional dedicated to bridging the gap between creative vision and operational excellence.</p>
       </div>
       <div class="comps reveal">
@@ -359,12 +359,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.2rem 3r
         <div>
           <div class="tl-role">Quality Control Director</div>
           <ul class="tl-ul">
+            <li>Hired and managed a team of <strong>20+ Quality Control specialists</strong>, building operational frameworks and mentoring staff to maintain excellence across global digital campaigns.</li>
             <li>Supervise the flawless execution and validation of assets for high-profile global clients including Google, Apple, and AT&amp;T, ensuring peak operational accuracy.</li>
             <li>Spearhead development of scalable workflows and automation strategies, reducing manual errors and increasing production speed for global digital campaigns.</li>
             <li>Oversee global DAM operations, ensuring the security, organization, and efficient retrieval of all creative and program-related assets.</li>
             <li>Serve as the primary operational expert ensuring all creative outputs meet rigorous quality standards to enhance the partner experience.</li>
           </ul>
-          <div class="tl-tags"><span class="tl-tag">DAM</span><span class="tl-tag">QA Strategy</span><span class="tl-tag">Process Optimization</span><span class="tl-tag">Automation</span><span class="tl-tag">Google · Apple · AT&amp;T</span></div>
+          <div class="tl-tags"><span class="tl-tag">Team Leadership</span><span class="tl-tag">DAM</span><span class="tl-tag">QA Strategy</span><span class="tl-tag">Process Optimization</span><span class="tl-tag">Automation</span><span class="tl-tag">Google · Apple · AT&amp;T</span></div>
         </div>
       </div>
 
@@ -506,7 +507,6 @@ function closeModal() {
 document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// PDF — ATS-friendly, printer-ready, white background, clean design
 async function generatePDF() {
   const btn = document.getElementById('dl-btn');
   const prog = document.getElementById('dl-prog');
@@ -521,12 +521,11 @@ async function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'pt', format: 'letter' });
 
-    // ── Page geometry ──
     const PW = 612, PH = 792;
-    const ML = 56, MR = 56;
-    const TW = PW - ML - MR; // 500pt usable width
+    const ML = 54, MR = 54;
+    const TW = PW - ML - MR; // 504pt
 
-    // ── Colours ──
+    // Colours
     const INK    = [18,  26,  42];
     const BODY   = [52,  64,  80];
     const SUBTLE = [112, 124, 142];
@@ -534,10 +533,8 @@ async function generatePDF() {
     const TEAL_L = [228, 244, 248];
     const AMBER  = [136,  90,  16];
     const BORDER = [206, 214, 224];
-    const TAG_BG = [240, 244, 250];
-    const TAG_HI = [216, 238, 246];
 
-    // ── Helpers ──
+    // Helpers
     const fn = (w) => doc.setFont('helvetica', w || 'normal');
     const fs = (s) => doc.setFontSize(s);
     const tc = (...c) => doc.setTextColor(...c);
@@ -546,38 +543,36 @@ async function generatePDF() {
     const lw = (w)  => doc.setLineWidth(w);
 
     // Write wrapped text, return new y
-    const put = (y, str, x, size, color, bold, maxW, lh) => {
+    const put = (y, str, x, size, color, bold, maxW, lineH) => {
       fn(bold ? 'bold' : 'normal');
       fs(size || 9.5);
       tc(...(color || BODY));
       const lines = doc.splitTextToSize(str, maxW || TW);
       doc.text(lines, x || ML, y);
-      return y + lines.length * (lh || (size || 9.5) * 1.4);
+      return y + lines.length * (lineH || (size || 9.5) * 1.38);
     };
 
-    // Right-aligned single line
     const putR = (y, str, size, color) => {
       fn('normal'); fs(size || 8); tc(...(color || SUBTLE));
       doc.text(str, PW - MR, y, { align: 'right' });
     };
 
-    // Thin horizontal rule
-    const rule = (y, x1, x2, weight, color) => {
+    const hline = (y, x1, x2, weight, color) => {
       dc(...(color || BORDER)); lw(weight || 0.4);
       doc.line(x1 != null ? x1 : ML, y, x2 != null ? x2 : PW - MR, y);
     };
 
-    // Section label — teal left bar + ALL CAPS label + rule underneath
-    // Returns y positioned after the heading, ready for content
+    // Section heading: teal left bar + small-caps label + rule
+    // Returns y ready for content (with extra gap built in)
     const secHead = (y, title) => {
       fc(...TEAL); doc.rect(ML, y, 3, 12, 'F');
       fn('bold'); fs(8); tc(...TEAL);
       doc.text(title.toUpperCase(), ML + 9, y + 9);
-      rule(y + 14, ML, PW - MR, 0.4, BORDER);
-      return y + 20;
+      hline(y + 14, ML, PW - MR, 0.4, BORDER);
+      return y + 24; // 24pt gap = rule + clear breathing room before content
     };
 
-    // Bullet — teal dot, wrapped text, returns new y
+    // Bullet: teal filled circle, returns new y
     const bul = (y, str) => {
       fc(...TEAL); doc.circle(ML + 4, y - 2.5, 2, 'F');
       fn('normal'); fs(9); tc(...BODY);
@@ -586,25 +581,21 @@ async function generatePDF() {
       return y + lines.length * 12.5;
     };
 
-    // Skill chip — plain rounded rect, no fill drama, returns width
-    const chip = (x, y, label, hi) => {
-      fs(7);
-      const cw = doc.getTextWidth(label) + 10;
-      fc(...(hi ? TAG_HI : TAG_BG));
-      dc(...(hi ? TEAL : BORDER));
-      lw(hi ? 0.5 : 0.3);
-      doc.roundedRect(x, y - 7.5, cw, 11, 2, 2, 'FD');
+    // Plain skill label — NO box, just teal bullet + text inline
+    // Returns width consumed so caller can flow inline
+    const skillLabel = (x, y, label, hi) => {
+      fs(8.5);
       fn(hi ? 'bold' : 'normal');
       tc(...(hi ? TEAL : BODY));
-      doc.text(label, x + 5, y);
-      return cw + 4;
+      doc.text(label, x, y);
+      return doc.getTextWidth(label);
     };
 
-    // Footer — simple rule + text, no background fill
+    // Footer
     const addFooter = (pg, label) => {
       doc.setPage(pg);
       const fy = PH - 28;
-      rule(fy, ML, PW - MR, 0.4, BORDER);
+      hline(fy, ML, PW - MR, 0.4, BORDER);
       fn('normal'); fs(7.5); tc(...SUBTLE);
       doc.text('edgarbolan@gmail.com  ·  +506 8838 0582  ·  linkedin.com/in/edgarbolan', ML, fy + 10);
       putR(fy + 10, label, 7.5, SUBTLE);
@@ -614,55 +605,65 @@ async function generatePDF() {
     //  PAGE 1
     // ═══════════════════════════════════════════════
 
-    // Teal top bar
+    // Top teal stripe
     fc(...TEAL); doc.rect(0, 0, PW, 5, 'F');
+    // Light teal header wash
+    fc(...TEAL_L); doc.rect(0, 5, PW, 76, 'F');
+    fc(...TEAL); doc.rect(0, 5, 4, 76, 'F'); // left accent
 
     // Name
-    fn('bold'); fs(28); tc(...INK);
-    doc.text('Edgar Bolanos', ML, 46);
+    fn('bold'); fs(26); tc(...INK);
+    doc.text('Edgar Bolanos', ML + 6, 38);
 
-    // Title — teal
-    fn('normal'); fs(10.5); tc(...TEAL);
-    doc.text('Senior Program Manager  ·  Creative Operations  ·  Digital Asset Management', ML, 62);
+    // Title
+    fn('normal'); fs(10); tc(...TEAL);
+    doc.text('Senior Program Manager  ·  Creative Operations  ·  Digital Asset Management', ML + 6, 54);
 
-    // Contact row
-    fn('normal'); fs(8.5); tc(...SUBTLE);
-    doc.text('edgarbolan@gmail.com  ·  +506 8838 0582  ·  linkedin.com/in/edgarbolan  ·  San Jose, CR', ML, 76);
+    // Contact
+    fn('normal'); fs(8); tc(...SUBTLE);
+    doc.text('edgarbolan@gmail.com  ·  +506 8838 0582  ·  linkedin.com/in/edgarbolan  ·  San Jose, CR', ML + 6, 68);
 
-    // Rule under header
-    rule(84, ML, PW - MR, 0.6, TEAL);
+    hline(82, ML, PW - MR, 0.5, TEAL);
 
-    let y = 102;
+    let y = 100;
 
-    // ── SUMMARY ──────────────────────────────────────────────
+    // ── SUMMARY ──────────────────────────────────
     y = secHead(y, 'Professional Summary');
     y = put(y,
-      'Senior Program Manager and Digital Producer with 7+ years leading Creative Operations, Digital Asset Management, and high-impact global programs for $60B brands — Google, Apple, AT&T, and VMware. Lean Six Sigma Black Belt and Design Thinking practitioner leveraging Generative AI and workflow automation to drive process excellence and seamless change management across enterprise-scale environments.',
+      'Senior Program Manager and Digital Producer with 7+ years leading Creative Operations, Digital Asset Management, and high-impact global programs for $60B brands — Google, Apple, AT&T, and VMware. Hired and managed a team of 20+ Quality Control specialists at Critical Mass, building operational frameworks and driving excellence across global digital campaign pipelines. Lean Six Sigma Black Belt and Design Thinking practitioner leveraging Generative AI and workflow automation to drive process excellence and seamless change management across enterprise-scale environments.',
       ML, 9.5, BODY, false, TW, 13.5);
-    y += 12;
+    y += 14;
 
-    // ── COMPETENCIES ─────────────────────────────────────────
+    // ── COMPETENCIES ─────────────────────────────
     y = secHead(y, 'Core Competencies');
-    y += 3;
-    const skills = [
-      'Program Governance', 'Strategic Planning', 'Change Management', 'Risk Mitigation',
-      'Stakeholder Advocacy', 'Budget Oversight', 'Digital Asset Management', 'Creative Workflow Opt.',
-      'QA Strategy', 'Agile / Scrum', 'SDLC', 'Lean Six Sigma BB', 'Design Thinking',
-      'Generative AI', 'Workfront', 'JIRA', 'Smartsheet', 'Confluence', 'SharePoint',
-    ];
-    const hiSkills = ['Program Governance', 'Digital Asset Management', 'Lean Six Sigma BB', 'Generative AI', 'Change Management'];
-    let cx = ML;
-    skills.forEach(s => {
-      fs(7);
-      const sw = doc.getTextWidth(s) + 10;
-      if (cx + sw > PW - MR) { cx = ML; y += 14; }
-      cx += chip(cx, y, s, hiSkills.includes(s));
-    });
-    y += 18;
 
-    // ── EXPERIENCE ───────────────────────────────────────────
+    // Skills as plain comma-separated text — two rows for readability
+    const skillGroups = [
+      ['Program Governance', 'Strategic Planning', 'Change Management', 'Risk Mitigation', 'Stakeholder Advocacy', 'Budget Oversight', 'Team Leadership'],
+      ['Digital Asset Management', 'Creative Workflow Opt.', 'QA Strategy', 'Agile / Scrum', 'SDLC', 'Lean Six Sigma BB', 'Design Thinking', 'Generative AI'],
+      ['Workfront', 'JIRA', 'Smartsheet', 'Confluence', 'SharePoint'],
+    ];
+    const hiSkills = new Set(['Program Governance', 'Digital Asset Management', 'Lean Six Sigma BB', 'Generative AI', 'Change Management', 'Team Leadership']);
+
+    skillGroups.forEach(group => {
+      let x = ML;
+      group.forEach((s, i) => {
+        const hi = hiSkills.has(s);
+        fn(hi ? 'bold' : 'normal'); fs(8.5);
+        tc(...(hi ? TEAL : BODY));
+        const label = i < group.length - 1 ? s + '  ·  ' : s;
+        // wrap to next line if overflows
+        const needed = doc.getTextWidth(label);
+        if (x + needed > PW - MR + 10) { x = ML; y += 13; }
+        doc.text(label, x, y);
+        x += needed;
+      });
+      y += 14;
+    });
+    y += 4;
+
+    // ── EXPERIENCE ───────────────────────────────
     y = secHead(y, 'Professional Experience');
-    y += 2;
 
     const jobs = [
       {
@@ -681,10 +682,10 @@ async function generatePDF() {
         role: 'Quality Control Director',
         period: 'January 2024 – May 2025  ·  Remote',
         bullets: [
+          'Hired and managed a team of 20+ Quality Control specialists, building frameworks and mentoring staff to maintain excellence across global digital campaigns.',
           'Supervised execution and validation of creative assets for global clients including Google, Apple, and AT&T.',
           'Spearheaded scalable workflows and automation strategies, reducing manual errors and increasing production speed.',
           'Oversaw global DAM operations ensuring security, organization, and efficient retrieval of all creative assets.',
-          'Served as primary operational expert ensuring all outputs met rigorous quality and partner standards.',
         ]
       },
       {
@@ -702,18 +703,15 @@ async function generatePDF() {
 
     jobs.forEach((j, ji) => {
       if (ji > 0) y += 12;
-
-      // Company bold + period right-aligned — on same baseline
+      // Company + period
       fn('bold'); fs(11); tc(...INK);
       doc.text(j.co, ML, y);
       putR(y, j.period, 8, SUBTLE);
       y += 14;
-
-      // Role in teal
+      // Role
       fn('bold'); fs(9); tc(...TEAL);
       doc.text(j.role, ML, y);
-      y += 12;
-
+      y += 13;
       // Bullets
       j.bullets.forEach(b => { y = bul(y, b); });
     });
@@ -723,59 +721,62 @@ async function generatePDF() {
     // ═══════════════════════════════════════════════
     doc.addPage();
 
-    // Teal top bar
+    // Header strip
     fc(...TEAL); doc.rect(0, 0, PW, 5, 'F');
+    fc(...TEAL_L); doc.rect(0, 5, PW, 30, 'F');
+    fc(...TEAL); doc.rect(0, 5, 4, 30, 'F');
 
-    // Continuation line
     fn('bold'); fs(9); tc(...INK);
-    doc.text('Edgar Bolanos', ML, 30);
+    doc.text('Edgar Bolanos', ML + 6, 24);
     const nw = doc.getTextWidth('Edgar Bolanos');
     fn('normal'); fs(8.5); tc(...SUBTLE);
-    doc.text('  ·  Senior Program Manager', ML + nw, 30);
-    putR(30, 'Page 2 of 2', 8, SUBTLE);
-    rule(38, ML, PW - MR, 0.4, BORDER);
+    doc.text('  ·  Senior Program Manager  ·  Creative Operations  ·  DAM', ML + 6 + nw, 24);
+    putR(24, 'Page 2 of 2', 8, SUBTLE);
+    hline(37, ML, PW - MR, 0.4, BORDER);
 
     y = 56;
 
-    // ── TWO-COLUMN LAYOUT ─────────────────────────────────────
     const c1W = 280, GAP = 22, c2W = TW - c1W - GAP, c2X = ML + c1W + GAP;
     const colStartY = y;
 
-    // Column section head — same style as page 1
+    // Column section head — same style, returns new y
     const colHead = (y, title, x, w) => {
       fc(...TEAL); doc.rect(x, y, 3, 12, 'F');
       fn('bold'); fs(7.5); tc(...TEAL);
       doc.text(title.toUpperCase(), x + 9, y + 9);
-      rule(y + 14, x, x + w, 0.35, BORDER);
-      return y + 20;
+      hline(y + 14, x, x + w, 0.35, BORDER);
+      return y + 24; // consistent gap after heading
     };
 
-    // Column chip row — returns new y
-    const colChips = (y, items, x, maxW, hi) => {
-      y += 3;
+    // Column skills — plain text with · separators, wraps within column
+    const colSkills = (y, items, x, maxW, hiSet) => {
       let cx = x;
-      items.forEach(item => {
-        fs(7);
-        const iw = doc.getTextWidth(item) + 10;
-        if (cx + iw > x + maxW) { cx = x; y += 13; }
-        cx += chip(cx, y, item, hi && hi.includes(item));
+      items.forEach((s, i) => {
+        const hi = hiSet && hiSet.includes(s);
+        fn(hi ? 'bold' : 'normal'); fs(8);
+        tc(...(hi ? TEAL : BODY));
+        const label = i < items.length - 1 ? s + '  ·  ' : s;
+        const needed = doc.getTextWidth(label);
+        if (cx + needed > x + maxW + 10) { cx = x; y += 13; }
+        doc.text(label, cx, y);
+        cx += needed;
       });
-      return y + 14;
+      return y + 16;
     };
 
     // LEFT — Skills
     y = colStartY;
     y = colHead(y, 'Program Leadership', ML, c1W);
-    y = colChips(y, ['Strategic Planning', 'Program Governance', 'Change Management', 'Risk Mitigation', 'Stakeholder Advocacy', 'Budget Oversight', 'Cross-Functional'], ML, c1W, ['Program Governance', 'Change Management']);
+    y = colSkills(y, ['Strategic Planning', 'Program Governance', 'Change Management', 'Risk Mitigation', 'Stakeholder Advocacy', 'Budget Oversight', 'Cross-Functional'], ML, c1W, ['Program Governance', 'Change Management']);
 
     y = colHead(y, 'Creative Operations & DAM', ML, c1W);
-    y = colChips(y, ['Creative Workflow Optimization', 'Digital Asset Management', 'Brand Consistency', 'QA Strategy', 'Resource Allocation'], ML, c1W, ['Digital Asset Management', 'QA Strategy']);
+    y = colSkills(y, ['Creative Workflow Optimization', 'Digital Asset Management', 'Brand Consistency', 'QA Strategy', 'Resource Allocation', 'Team Leadership'], ML, c1W, ['Digital Asset Management', 'QA Strategy', 'Team Leadership']);
 
     y = colHead(y, 'Web & Digital Production', ML, c1W);
-    y = colChips(y, ['Agile Scrum', 'Kanban', 'SDLC', 'Workfront', 'JIRA', 'Smartsheet', 'Miro', 'Confluence', 'SharePoint'], ML, c1W, ['Agile Scrum', 'Workfront', 'JIRA']);
+    y = colSkills(y, ['Agile Scrum', 'Kanban', 'SDLC', 'Workfront', 'JIRA', 'Smartsheet', 'Miro', 'Confluence', 'SharePoint'], ML, c1W, ['Agile Scrum', 'Workfront', 'JIRA']);
 
     y = colHead(y, 'Innovation & Languages', ML, c1W);
-    y = colChips(y, ['Lean Six Sigma BB', 'Design Thinking', 'Generative AI', 'Automation Tools', 'Native Spanish', 'English'], ML, c1W, ['Lean Six Sigma BB', 'Generative AI', 'Design Thinking']);
+    y = colSkills(y, ['Lean Six Sigma BB', 'Design Thinking', 'Generative AI', 'Automation Tools', 'Native Spanish', 'English'], ML, c1W, ['Lean Six Sigma BB', 'Generative AI', 'Design Thinking']);
 
     const col1EndY = y;
 
@@ -785,34 +786,34 @@ async function generatePDF() {
     y += 2;
 
     [
-      { type: 'Certification',      deg: 'Lean Six Sigma Black Belt',            inst: 'Six Sigma Academy Amsterdam' },
-      { type: 'Professional Cert.', deg: 'Google Project Management',            inst: 'Google' },
-      { type: 'Certification',      deg: 'Design Thinking Certification',        inst: 'INCAE Business School' },
+      { type: 'Certification',      deg: 'Lean Six Sigma Black Belt',             inst: 'Six Sigma Academy Amsterdam' },
+      { type: 'Professional Cert.', deg: 'Google Project Management',             inst: 'Google' },
+      { type: 'Certification',      deg: 'Design Thinking Certification',         inst: 'INCAE Business School' },
       { type: 'Bachelor of Arts',   deg: 'Advertising Design & Media Production', inst: 'Universidad Americana' },
     ].forEach(e => {
-      // Amber left accent line — no box
-      fc(...AMBER); doc.rect(c2X, y - 2, 2.5, 30, 'F');
+      // Amber accent bar + plain text, no card
+      fc(...AMBER); doc.rect(c2X, y - 1, 2.5, 30, 'F');
       fn('normal'); fs(6.5); tc(...AMBER);
-      doc.text(e.type.toUpperCase(), c2X + 8, y + 5);
+      doc.text(e.type.toUpperCase(), c2X + 8, y + 6);
       fn('bold'); fs(9); tc(...INK);
       const dl = doc.splitTextToSize(e.deg, c2W - 14);
-      doc.text(dl, c2X + 8, y + 15);
+      doc.text(dl, c2X + 8, y + 16);
       fn('normal'); fs(8); tc(...SUBTLE);
-      doc.text(e.inst, c2X + 8, y + 26);
-      y += 38;
+      doc.text(e.inst, c2X + 8, y + 27);
+      y += 40;
     });
 
-    y += 8;
+    y += 6;
     y = colHead(y, 'Key Clients', c2X, c2W);
     y += 4;
 
+    // Clients — plain coloured dot + name, no box
     [
       ['Google',  [34,  180,  90]],
       ['Apple',   [100, 110, 125]],
       ['AT&T',    [55,  125, 240]],
       ['VMware',  [14,  116, 144]],
     ].forEach(([name, dot]) => {
-      // Coloured dot + name — no box
       fc(...dot); doc.circle(c2X + 5, y - 2, 3, 'F');
       fn('bold'); fs(10); tc(...INK);
       doc.text(name, c2X + 14, y);
@@ -821,7 +822,7 @@ async function generatePDF() {
 
     const col2EndY = y;
 
-    // Vertical column divider
+    // Column divider
     dc(...BORDER); lw(0.4);
     doc.line(ML + c1W + GAP / 2, colStartY - 4, ML + c1W + GAP / 2, Math.max(col1EndY, col2EndY));
 
