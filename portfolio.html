@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edgar Bolaños Ugarte — Graphic Design & Creative Operations Manager</title>
+<meta name="description" content="15+ years leading designers, technical artists and QC teams to deliver brand-compliant creative for Apple, BMW, AT&T, VMware and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#100D1C;--panel:#1A1630;--paper:#F4EFE6;--mute:#B2ABC4;--pink:#FF4FA3;--uv:#7B5CFF;--cyan:#27D3F5;--yel:#FFD84A;--line:#2E2850}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font:400 1.05rem/1.6 "Hanken Grotesk",system-ui,sans-serif}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--yel);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem)}
+h1,h2,h3{font-family:Syne,"Arial Black",sans-serif;font-weight:800;line-height:1;letter-spacing:-.02em}
+nav{display:flex;justify-content:space-between;gap:1rem;padding:1.25rem 0;font-weight:500}
+nav div{display:flex;gap:1.5rem;flex-wrap:wrap}
+nav a{text-decoration:none;color:var(--mute)}nav a:hover{color:var(--paper)}
+
+/* Hero: a print proof sheet */
+.hero{position:relative;margin:1rem 0 0;padding:clamp(3rem,9vw,7rem) 0 4rem}
+.hero::before,.hero::after{content:"";position:absolute;width:34px;height:34px;border-color:var(--mute);border-style:solid;opacity:.7}
+.hero::before{top:0;left:0;border-width:1px 0 0 1px}
+.hero::after{bottom:0;right:0;border-width:0 1px 1px 0}
+.hero h1{font-size:clamp(3.2rem,12vw,9.5rem);text-transform:uppercase}
+.hero h1 span{display:block;color:transparent;-webkit-text-stroke:2px var(--paper)}
+.role{margin-top:2rem;font-size:clamp(1.15rem,2.4vw,1.6rem);max-width:30ch;font-weight:500}
+.hero p.lede{margin-top:1rem;color:var(--mute);max-width:56ch}
+.bar{display:flex;height:14px;margin-top:3rem;max-width:420px;transform-origin:left;animation:slide 1.1s cubic-bezier(.2,.8,.2,1) both}
+.bar i{flex:1}.bar i:nth-child(1){background:var(--cyan)}.bar i:nth-child(2){background:var(--pink)}.bar i:nth-child(3){background:var(--yel)}.bar i:nth-child(4){background:var(--paper)}
+@keyframes slide{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:3rem}
+.stats div{background:var(--ink);padding:1.25rem}
+.stats b{display:block;font:800 1.6rem Syne,sans-serif}
+.stats span{color:var(--mute);font-size:.95rem}
+
+section{padding:5rem 0}
+h2{font-size:clamp(2.2rem,6vw,4rem);margin-bottom:.75rem}
+.sub{color:var(--mute);max-width:60ch;margin-bottom:3rem}
+
+/* Case studies */
+.case{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);padding:2.5rem 0;border-top:1px solid var(--line);align-items:center}
+.case:nth-child(even) .art{order:2}
+.art{aspect-ratio:4/3;position:relative;overflow:hidden;border-radius:6px;background:var(--panel)}
+.art svg{width:100%;height:100%;display:block}
+.art em{position:absolute;left:.75rem;bottom:.6rem;font-size:.8rem;font-style:normal;color:var(--paper);background:#100D1Cd9;padding:.15rem .5rem;border-radius:3px}
+.client{color:var(--pink);font-weight:700;margin-bottom:.5rem}
+.case h3{font-size:clamp(1.6rem,3.4vw,2.4rem);margin-bottom:1rem}
+.case p{color:var(--mute);margin-bottom:1rem}
+.case dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;font-size:.98rem}
+.case dt{font-weight:700}.case dd{color:var(--mute)}
+.todo{color:var(--yel)!important}
+
+/* Experience */
+.row{display:grid;grid-template-columns:150px 1fr;gap:1.5rem;padding:1.4rem 0;border-top:1px solid var(--line)}
+.row time{color:var(--mute);font-size:.95rem}
+.row h3{font-size:1.35rem;margin-bottom:.35rem}
+.row p{color:var(--mute);max-width:64ch}
+
+/* Toolkit + credentials */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}
+.cols h3{font-size:1.2rem;margin-bottom:.9rem;color:var(--cyan)}
+.cols ul{list-style:none;padding:0;color:var(--mute)}
+.cols li{padding:.3rem 0;border-bottom:1px solid var(--line)}
+
+.contact{background:var(--pink);color:var(--ink);padding:5rem 0}
+.contact h2{font-size:clamp(2.6rem,9vw,7rem)}
+.contact a{font:700 clamp(1.1rem,2.6vw,1.6rem) Syne,sans-serif}
+.contact .links{display:flex;flex-wrap:wrap;gap:.75rem 2rem;margin-top:1.5rem}
+footer{padding:1.5rem 0;color:var(--mute);font-size:.9rem}
+
+@media(max-width:760px){.case{grid-template-columns:1fr}.case:nth-child(even) .art{order:0}.row{grid-template-columns:1fr;gap:.25rem}}
+@media(prefers-reduced-motion:reduce){.bar{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <nav aria-label="Primary">
+    <a href="#top"><b>Edgar Bolaños Ugarte</b></a>
+    <div><a href="#work">Work</a><a href="#path">Career</a><a href="#toolkit">Toolkit</a><a href="#contact">Contact</a></div>
+  </nav>
+</header>
+
+<main id="top">
+<div class="wrap">
+  <div class="hero">
+    <h1>Creative<span>that ships</span><span>on brand.</span></h1>
+    <p class="role">Graphic Design &amp; Creative Operations Manager</p>
+    <p class="lede">I lead designers, technical artists and QC specialists so campaigns look right, move fast and stay on brand across print, web, video and programmatic media. 15+ years, from agency floors to global in-house teams.</p>
+    <div class="bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="stats">
+      <div><b>15+ yrs</b><span>Creative &amp; delivery leadership</span></div>
+      <div><b>15+ people</b><span>Designers, tech artists, QC led</span></div>
+      <div><b>Apple · BMW · AT&amp;T</b><span>Enterprise clients at Critical Mass</span></div>
+      <div><b>Black Belt</b><span>Lean Six Sigma certified</span></div>
+    </div>
+  </div>
+
+  <section id="work" aria-labelledby="w">
+    <h2 id="w">Selected work</h2>
+    <p class="sub">Four bodies of work where design quality and operational discipline had to hold together at scale.</p>
+
+    <article class="case">
+      <div class="art">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Placeholder: quality control framework artwork"><rect width="400" height="300" fill="#1A1630"/><g fill="none" stroke="#27D3F5" stroke-width="2"><rect x="60" y="50" width="130" height="90"/><rect x="210" y="50" width="130" height="90" stroke="#FF4FA3"/><rect x="60" y="160" width="130" height="90" stroke="#FFD84A"/></g><circle cx="275" cy="205" r="42" fill="#7B5CFF"/><path d="M255 205l15 15 28-32" stroke="#F4EFE6" stroke-width="6" fill="none"/></svg>
+        <em>Placeholder — swap in your visual</em>
+      </div>
+      <div>
+        <div class="client">Critical Mass · Apple, BMW, AT&amp;T</div>
+        <h3>A quality system that let high-volume creative scale</h3>
+        <p>Built reusable QC frameworks, component libraries and automated review workflows across digital advertising, programmatic, video and web assets, while a team of 15+ kept brand fidelity intact.</p>
+        <dl><dt>Role</dt><dd>Quality Control Director</dd><dt>Scope</dt><dd>Omnichannel delivery, escalations, root-cause analysis</dd><dt>Result</dt><dd class="todo">Add a metric: error rate, turnaround or volume</dd></dl>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="art">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Placeholder: event brand artwork"><rect width="400" height="300" fill="#1A1630"/><rect x="0" y="0" width="400" height="300" fill="#7B5CFF" opacity=".25"/><circle cx="130" cy="150" r="90" fill="#FF4FA3"/><circle cx="210" cy="150" r="90" fill="#27D3F5" style="mix-blend-mode:screen" opacity=".85"/><circle cx="290" cy="150" r="90" fill="#FFD84A" style="mix-blend-mode:screen" opacity=".7"/></svg>
+        <em>Placeholder — swap in your visual</em>
+      </div>
+      <div>
+        <div class="client">VMware · VMworld &amp; Explore</div>
+        <h3>One brand voice across a global event portfolio</h3>
+        <p>Governed visual identity, positioning and channel activation across partner ecosystems, and automated campaign intake and review in Workfront and Jira so derivative content shipped on schedule.</p>
+        <dl><dt>Role</dt><dd>Brand Engagement Manager</dd><dt>Scope</dt><dd>Brand standards, workshops with global BUs and creative partners</dd><dt>Result</dt><dd class="todo">Add a metric or a campaign visual you can show</dd></dl>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="art">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Placeholder: web platform wireframe artwork"><rect width="400" height="300" fill="#1A1630"/><rect x="40" y="40" width="320" height="30" rx="4" fill="#2E2850"/><rect x="40" y="90" width="190" height="170" rx="4" fill="#FF4FA3"/><rect x="250" y="90" width="110" height="78" rx="4" fill="#27D3F5"/><rect x="250" y="182" width="110" height="78" rx="4" fill="#FFD84A"/></svg>
+        <em>Placeholder — swap in your visual</em>
+      </div>
+      <div>
+        <div class="client">VMware · HR Centers of Excellence</div>
+        <h3>Digital experiences people could actually navigate</h3>
+        <p>Turned business requirements into content architectures, visual hierarchies and interactive touchpoints across AEM, Drupal, WordPress and SharePoint, with scorecards that gave executives clear next steps.</p>
+        <dl><dt>Role</dt><dd>Program Manager, Digital Experience</dd><dt>Scope</dt><dd>CMS implementations, web analytics, reporting</dd><dt>Result</dt><dd class="todo">Add a before/after screenshot or a KPI</dd></dl>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="art">
+        <svg viewBox="0 0 400 300" role="img" aria-label="Placeholder: personal creative artwork"><rect width="400" height="300" fill="#1A1630"/><path d="M0 220 L120 60 L220 180 L300 90 L400 230 V300 H0Z" fill="#7B5CFF"/><circle cx="310" cy="70" r="34" fill="#FFD84A"/></svg>
+        <em>Placeholder — swap in your visual</em>
+      </div>
+      <div>
+        <div class="client">Personal creative work</div>
+        <h3>Brand and campaign pieces made for the love of it</h3>
+        <p>Identity systems, campaign concepts and custom SVG artwork. This is where your design voice shows without client constraints. Link your existing portfolio pieces here.</p>
+        <dl><dt>Tools</dt><dd>Figma, Photoshop, Illustrator, InDesign, Generative AI</dd><dt>Next</dt><dd class="todo">Add 3 to 6 of your strongest pieces</dd></dl>
+      </div>
+    </article>
+  </section>
+
+  <section id="path" aria-labelledby="p">
+    <h2 id="p">Career</h2>
+    <p class="sub">From QA lead to creative director-level operations.</p>
+    <div class="row"><time>2025 – now</time><div><h3>Akamai Technologies · Senior Program Manager</h3><p>Directs multi-stream enterprise programs across global matrixed teams, writes SOPs and governance models, and applies Generative AI to scoping and resourcing.</p></div></div>
+    <div class="row"><time>2024 – 2025</time><div><h3>Critical Mass · Quality Control Director</h3><p>Led 15+ creatives and QC specialists for Apple, BMW and AT&amp;T. Owned brand compliance and delivery readiness.</p></div></div>
+    <div class="row"><time>2021 – 2023</time><div><h3>VMware · Brand Engagement Manager</h3><p>Advised executives on multi-channel marketing for VMworld and Explore, and governed global brand standards.</p></div></div>
+    <div class="row"><time>2018 – 2021</time><div><h3>VMware · Program Manager, Digital Experience</h3><p>Delivered web platforms and content architectures for HR Centers of Excellence.</p></div></div>
+    <div class="row"><time>2008 – 2018</time><div><h3>Astrix, Intertec, Prodigious, Accenture · QA Lead &amp; Digital Delivery</h3><p>Led delivery and testing for Google and Yahoo!, and set DAM standards for high-impact web and media projects.</p></div></div>
+  </section>
+
+  <section id="toolkit" aria-labelledby="t">
+    <h2 id="t">Toolkit</h2>
+    <p class="sub">Craft, systems and methods.</p>
+    <div class="cols">
+      <div><h3>Craft</h3><ul><li>Figma, Photoshop, Illustrator, InDesign</li><li>Visual identity &amp; style guides</li><li>Print, web, mobile, video &amp; motion assets</li><li>AEM and CMS design</li></ul></div>
+      <div><h3>Operations</h3><ul><li>Adobe Workfront &amp; Jira automation</li><li>Agile / Scrum</li><li>QA/QC frameworks</li><li>Capacity planning &amp; Power BI</li></ul></div>
+      <div><h3>Credentials</h3><ul><li>BA Graphic Design &amp; Media Production</li><li>Lean Six Sigma Black Belt</li><li>Design Thinking, INCAE · IDEO U</li><li>Generative AI, Microsoft &amp; LinkedIn</li></ul></div>
+    </div>
+  </section>
+</div>
+
+<section class="contact" id="contact" aria-labelledby="c">
+  <div class="wrap">
+    <h2 id="c">Let's build something on brand.</h2>
+    <div class="links">
+      <a href="mailto:edgarbolan@gmail.com">edgarbolan@gmail.com</a>
+      <a href="https://linkedin.com/in/edgarbolan" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="wrap">Edgar Bolaños Ugarte · Costa Rica · English &amp; Spanish</footer>
+</body>
+</html>
